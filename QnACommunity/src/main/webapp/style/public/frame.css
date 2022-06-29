@@ -1,0 +1,17 @@
+@charset "EUC-KR";
+
+*{
+    box-sizing: border-box;
+    margin: 0; padding: 0;
+}
+#wrap{
+    width: 550px; height: 700px;
+    margin: 0 auto;
+    background-color: aliceblue;
+}
+
+.hello{
+    position: absolute;
+    top: 10; left: 40%;
+    font-size: 100px;
+}
