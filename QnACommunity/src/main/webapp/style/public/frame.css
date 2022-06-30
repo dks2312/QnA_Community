@@ -4,10 +4,17 @@
     box-sizing: border-box;
     margin: 0; padding: 0;
 }
+a{
+    text-decoration: none;
+    color: initial;
+}
+
+
 #wrap{
     width: 550px; height: 700px;
     margin: 0 auto;
     background-color: aliceblue;
+    padding: 5px;
 }
 
 .hello{
