@@ -1,13 +1,24 @@
 @charset "EUC-KR";
 
-.search{
+.header{
     width: 100%;
-    height: 25px;
+    height: 30px;
+    display: grid;
+    grid-template-columns: 100px 1fr 100px;
 }
 
-.search input{
-    width: 100%;
-    height: 100%;
+.back_btn{
+    width: 80px; height: 30px;
+    background-color: rebeccapurple;
+}
+.back_btn a{
+    display: block;
+    width: 100%; height: 100%;
+}
+
+.header .search{
+    width: 700px;
+    height: 25px;
     display: block;
     margin: 0 auto;
 }

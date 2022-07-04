@@ -16,9 +16,3 @@ a{
     padding: 15px;
     position: relative;
 }
-
-.hello{
-    position: absolute;
-    top: 10; left: 40%;
-    font-size: 100px;
-}
