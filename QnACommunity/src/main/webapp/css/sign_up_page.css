@@ -1,1 +1,62 @@
 @charset "UTF-8";
+
+h1{
+    display: block;
+    width: 500px;
+    height: 100px;
+    text-align: center;
+    line-height: 100px;
+    margin: 0 auto;
+}
+
+.sign_up_table{
+    position: relative;
+    top: 0;
+    width: 500px;
+    height: 100px;
+    margin: 0 auto;
+    display: table;
+    table-layout: fixed;
+    border: 1px solid black;
+}
+.sign_up_table td.lab{
+    width: 150px;
+    text-align: right;
+}
+.sign_up_table label{
+    width: 200px;
+}
+
+.sign_up_table td.inp input{
+    margin-left: 10px;
+    width: 200px;
+}
+.sign_up_table td.inp #pw, #pw_check{
+    width: 300px;
+}
+
+.submit{
+    width: 500px;
+    height: 100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.submit button{
+    width: 150px;
+    height: 50px;
+    margin: 10px 0;
+    border-radius: 10px;
+}
+
+.submit button a{
+    display: block;
+    width: 100%; height: 100%;
+}
+
+.id_check{
+    position: absolute;
+    left: 65%;
+    margin-top: 5px;
+}
