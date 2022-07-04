@@ -22,3 +22,8 @@
     display: block;
     margin: 0 auto;
 }
+
+.action_btn{
+    width: 80px; height: 30px;
+    background-color: green;
+}
