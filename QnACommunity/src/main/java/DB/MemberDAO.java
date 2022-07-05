@@ -15,11 +15,35 @@ public class MemberDAO {
 	private Statement stmt;
 	private ResultSet rs;
 	
-	public boolean list(MemberVo user) {
+	public boolean selected(MemberVo user) {
 		try {
 			connDB();
 			
 			String query = "SELECT * FROM member WHERE id='"+ user.getId() +"' AND password='"+ user.getPassword() +"'";
+			System.out.println("SQL : " + query);
+			rs = stmt.executeQuery(query);
+			rs.last();
+			System.out.println("rs.getRow() : " + rs.getRow());
+			
+			if(rs.getRow() == 0) {
+				System.out.println("0 row selected...");
+			}else {
+				return true;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+//			System.out.println("!경고 : DB에서 동일한 ID와 PW정보를 찾지 못했습니다.");
+		}
+		
+		return false;
+	}
+	
+	public boolean insert(MemberVo user) {
+		try {
+			connDB();
+			
+			String query = "INSERT INTO member "
+					+ "VALUES('"+ user.getId() +"', '"+ user.getPassword() +"', '"+ user.getNickName() +"')";
 			System.out.println("SQL : " + query);
 			rs = stmt.executeQuery(query);
 			rs.last();
