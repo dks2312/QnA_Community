@@ -16,20 +16,20 @@
 
         <h1>로그인</h1>
 
-        <form action="" method="post">
+        <form action="login" method="post">
             <table class="login_table">
                 <tr>
-                    <td class="lab"><label for="id">아이디 : </label></td>
-                    <td class="inp"><input id="id" type="text"></td>
+                    <td class="lab"><label for="id_filed">아이디 : </label></td>
+                    <td class="inp"><input name="id" id="id_filed" type="text"></td>
                 </tr>
                 <tr>
-                    <td class="lab"><label for="pw">비밀번호 : </label></td>
-                    <td class="inp"><input id="pw" type="password"></td>
+                    <td class="lab"><label for="pw_filed">비밀번호 : </label></td>
+                    <td class="inp"><input name="pw" id="pw_filed" type="password"></td>
                 </tr>
             </table>
 
             <div class="submit_btns">
-                <button id="login">로그인</button>
+                <button id="login" type="submit">로그인</button>
                 <button id="Register" type="button"><a href="./sign_up_page.html">회원가입</a></button>
             </div>
         </form>

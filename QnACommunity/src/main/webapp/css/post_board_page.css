@@ -26,10 +26,10 @@
 }
 
 .post_board{
-    width: 100%; height: 700px;
+    width: 100%; height: 720px;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(20, 35px);
+    grid-template-rows: 20px repeat(20, 35px);
 }
 .post_tilte{
     width: 100%;
