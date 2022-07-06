@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,7 +7,6 @@
     <link rel="stylesheet" href="./css/index.css">
     <link rel="stylesheet" href="./css/public/frame.css">
     <link rel="stylesheet" href="./css/sign_up_page.css">
-    <!-- <script defer src="./js/testJS.js"></script> -->
     <title>질문 있습니다!!!</title>
 </head>
 <body>
@@ -16,9 +17,14 @@
         </div>
 
         <h1>회원가입</h1>
+        
+        <%
+        	String hello = request.getParameter("hello");
+        	if(hello != null) out.print("<h1>hello출력 : "+ hello +"</h1>");
+        %>
 
-        <form action="sign_up" method="post">
-            <button type="button" class="id_check" id="id_check">중복체크</button>
+        <form action="./sign_up.jsp" method="post">
+            <button type="button" class="id_check" name="id_check">중복체크</button>
             <table class="sign_up_table">
                 <tr>
                     <td class="lab"><label for="id_filed">아이디 : </label></td>
