@@ -3,13 +3,10 @@ package DB;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class MemberDAO {
-	private ColumnData[] columnData = new ColumnData[3];
-	
+public class MemberDAO {	
 	private String driver = "oracle.jdbc.driver.OracleDriver";
 	private String url = "jdbc:oracle:thin:@localhost:1521:xe";
 	private String user = "c##green";
@@ -31,7 +28,6 @@ public class MemberDAO {
 	
 	public MemberDAO() {
 		connDB();
-		columnSizeInit();
 	}
 
 	public boolean selected(MemberVo user) {
@@ -62,36 +58,18 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 	}	
-	
-	private void columnSizeInit() {
-		try {
-			String query = "SELECT * FROM member";
-			System.out.println("SQL : " + query);
-			rs = stmt.executeQuery(query);
-			ResultSetMetaData rsmd = rs.getMetaData();
-
-			for (int i = 1; i <= columnData.length; i++) {
-				columnData[i-1] = new ColumnData(rsmd.getColumnName(i), rsmd.getColumnDisplaySize(i));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	private void connDB() {
 		try {
 			Class.forName(driver);
 			System.out.println("jdbc driver loading success.");
 			con = DriverManager.getConnection(url, user, password);
-			System.out.println("oracle connection success.\n");
+			System.out.println("oracle connection success.");
 			stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			System.out.println("statement create success.\n");
+			System.out.println("statement create success.");
+			System.out.println();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public ColumnData columnData(int index) {
-		return columnData[index];
 	}
 }

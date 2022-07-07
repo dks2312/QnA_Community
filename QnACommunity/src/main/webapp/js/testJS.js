@@ -1,32 +1,17 @@
-window.onload = function(){
-  document.getElementById("id_check_helf").addEventListener("click", function(){
-	  var httpRequest = new XMLHttpRequest();
-	  var currentState = "";
-	  httpRequest.onreadystatechange = function() {
-	    switch (httpRequest.readyState) {
-	      case XMLHttpRequest.UNSET:
-	        currentState += "XMLHttpRequest 객체의 현재 상태는 UNSET 입니다.<br>";
-	        break;
-	      case XMLHttpRequest.OPENED:
-	        currentState += "XMLHttpRequest 객체의 현재 상태는 OPENED 입니다.<br>";
-	        break;
-	      case XMLHttpRequest.HEADERS_RECEIVED:
-	        currentState += "XMLHttpRequest 객체의 현재 상태는 HEADERS_RECEIVED 입니다.<br>";
-	        break;
-	      case XMLHttpRequest.LOADING:
-	        currentState += "XMLHttpRequest 객체의 현재 상태는 LOADING 입니다.<br>";
-	        break;
-	      case XMLHttpRequest.DONE:
-	        currentState += "XMLHttpRequest 객체의 현재 상태는 DONE 입니다.<br>";
-	        break;
-	    }
-	    document.getElementById("status").innerHTML = currentState;
+function validateForm(form){
+	alter("form : "+ form);
+	if(form.id.value){
+		alter("아이디를 입력하세요");
+		return false;
+	}
 	
-	    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200 ) {
-	      document.getElementById("text").innerHTML = httpRequest.responseText;
-	    }
-	  };
-	  httpRequest.open("GET", "../sign_up_page.jsp", true);
-	  httpRequest.send();
-	});
-}();
+	if(form.pw.value){
+		alter("비밀번호를 입력하세요");
+		return false;
+	}
+	
+	if(form.pw.value != form.pw_check.value){
+		alter("비밀번호를 다시 확인해주세요");
+		return false;
+	}
+}

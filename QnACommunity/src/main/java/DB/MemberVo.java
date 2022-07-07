@@ -3,7 +3,7 @@ package DB;
 public class MemberVo {
 	private String id;
 	private String password;
-	private String nickName;
+	private String nickName = "익명의사용자";
 
 	public MemberVo() {
 

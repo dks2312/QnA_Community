@@ -63,3 +63,8 @@ a {
 	bottom: 0;
 	font-size: 15px;
 }
+
+/* real public */
+.off {
+	opacity: 0.5;
+}
