@@ -59,4 +59,9 @@ h1{
     position: absolute;
     left: 65%;
     margin-top: 5px;
+    z-index: 100;
+}
+
+.good_text{
+	background-color : green; 
 }
