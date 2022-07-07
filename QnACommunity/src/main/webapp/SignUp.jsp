@@ -24,7 +24,7 @@
 	<div id="wrap">
 		<div class="header">
 			<div class="back_btn">
-				<a href="./login_page.html">뒤로가기</a>
+				<a href="./Login.jsp">뒤로가기</a>
 			</div>
 
 		</div>

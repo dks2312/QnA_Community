@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +13,7 @@
 	<div id="wrap">
 		<div class="header">
 			<div class="back_btn">
-				<a href="./index.html">뒤로가기</a>
+				<a href="./Index.jsp">뒤로가기</a>
 			</div>
 
 		</div>
@@ -33,7 +35,7 @@
 			<div class="submit_btns">
 				<button id="login_btn" type="submit">로그인</button>
 				<button id="register_btn" type="button">
-					<a href="./sign_up_page.jsp">회원가입</a>
+					<a href="./SignUp.jsp">회원가입</a>
 				</button>
 			</div>
 		</form>

@@ -22,8 +22,8 @@ public class Login extends HttpServlet {
 		MemberDAO userDAO = new MemberDAO();
 		boolean isMember = userDAO.selected(new MemberVo(id, pw, null));
 		
-		if(isMember) response.sendRedirect("index.html");
-		else response.sendRedirect("login_page.html");
+		if(isMember) response.sendRedirect("Index.jsp");
+		else response.sendRedirect("Login.jsp");
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

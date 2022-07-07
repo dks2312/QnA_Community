@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,20 +21,20 @@
 	<div id="wrap">
 		<header class="header">
 			<div class="back_btn">
-				<a href="./post_board_page.html">뒤로가기</a>
+				<a href="./PostBoard.jsp">뒤로가기</a>
 			</div>
 			<div class="search_pane"></div>
 			<button class="action_btn">글 게시하기</button>
 		</header>
 		<div class="post_property">
 			<div class="post_title">
-				<label for="post_title_input">제목</label> <input type="text"
-					name="post_title_input">
+				<label for="post_title_input">제목</label> 
+				<input type="text" name="post_title_input">
 			</div>
 
 			<div class="post_category_selected">
-				<label for="post_category_items">카테고리</label> <select name="cat"
-					id="post_category_items">
+				<label for="post_category_items">카테고리</label> 
+				<select name="cat" id="post_category_items">
 					<option value="none">선택</option>
 					<option value="quest">질문</option>
 					<option value="error">오류&에러</option>

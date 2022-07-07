@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +13,7 @@
 	<div id="wrap">
 		<div class="header">
 			<div class="back_btn">
-				<a href="./index.html">뒤로가기</a>
+				<a href="./Index.jsp">뒤로가기</a>
 			</div>
 		</div>
 

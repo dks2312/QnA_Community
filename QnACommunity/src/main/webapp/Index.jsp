@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,22 +18,22 @@
 			<div class="title_right">
 				<div class="title_day">남은 수업 일수 : D-999</div>
 				<div class="title_time">남은 수업 시간 : 99:99</div>
-				<div class="title_wellcom">익명의 사용자님 어서오세요</div>
+				<% if(session.getAttribute("UserId") != null) {%><div class="title_wellcom"><%= session.getAttribute("UserId") %> 어서오세요</div><%} %>
 			</div>
 		</div>
 		<hr>
 		<div class="content_menu">
 			<div class="btn ">
-				<a href="./post_board_page.html">게시판</a>
+				<a href="./PostBoard.jsp">게시판</a>
 			</div>
 			<div class="btn off">
 				<a href="#">잡담</a>
 			</div>
 			<div class="btn">
-				<a href="./character_page.html">일정</a>
+				<a href="./Character.jsp">일정</a>
 			</div>
 			<div class="btn">
-				<a href="./login_page.html">로그인</a>
+				<a href="./Login.jsp">로그인</a>
 			</div>
 		</div>
 	</div>
