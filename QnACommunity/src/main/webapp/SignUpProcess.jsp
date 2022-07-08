@@ -14,20 +14,17 @@
 	String pw = request.getParameter("pw");
 	String nicName = request.getParameter("nic_name");
 	
-	MemberDAO userDAO = new MemberDAO();
-	MemberVo userVo = new MemberVo(id, pw, nicName);
+	MemberDAO memberDAO = new MemberDAO();
+	MemberVo memberVo = new MemberVo(id, pw, nicName);
 	
-	if(!userDAO.selected(userVo)){
-		userDAO.insert(userVo);
+	if(memberDAO.selected(memberVo) == null){
+		memberDAO.insert(memberVo);
 		
-		session.setAttribute("UserId", id);
-		session.setAttribute("UserName", nicName);
-		
-		response.sendRedirect("index.html");
+		response.sendRedirect("LogIn.jsp");
 	}
 	else{
 		request.setAttribute("SignUpErrMsg", "중복된 아이디가 존재합니다.");
-		request.getRequestDispatcher("sign_up_page.jsp").forward(request, response);
+		request.getRequestDispatcher("SignUp.jsp").forward(request, response);
 	}
 	
 	%>

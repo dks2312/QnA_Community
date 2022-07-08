@@ -3,7 +3,6 @@ package DB;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 public class MemberDAO {	
@@ -30,9 +29,9 @@ public class MemberDAO {
 		connDB();
 	}
 
-	public boolean selected(MemberVo user) {
+	public MemberVo selected(MemberVo user) {
 		try {
-			String query = "SELECT * FROM member WHERE id='"+ user.getId() +"' AND password='"+ user.getPassword() +"'";
+			String query = "SELECT id, password, nick_name FROM member WHERE id='"+ user.getId() +"' AND password='"+ user.getPassword() +"'";
 			System.out.println("SQL : " + query);
 			rs = stmt.executeQuery(query);
 			rs.last();
@@ -40,13 +39,16 @@ public class MemberDAO {
 			
 			if (rs.getRow() == 0) 
 				System.out.println("0 row selected...");
-			else 
-				return true;
+			else {
+				MemberVo userVo = new MemberVo(rs.getString(1), rs.getString(2), rs.getString(3));
+				return userVo;
+			}
 		} catch (Exception e) {
-			System.out.println("Error : "+ e.getMessage());
+//			System.out.println("Error : "+ e.getMessage());
+			e.printStackTrace();
 		}
 
-		return false;
+		return null;
 	}
 
 	public void insert(MemberVo user) {
@@ -54,7 +56,8 @@ public class MemberDAO {
 			String query = "INSERT INTO member VALUES('"+ user.getId() +"', '"+ user.getPassword() +"', '"+ user.getNickName() + "')";
 			System.out.println("SQL : " + query);
 			rs = stmt.executeQuery(query);
-		} catch (SQLException e) {
+		} catch (Exception e) {
+//			System.out.println("Error : "+ e.getMessage());
 			e.printStackTrace();
 		}
 	}	

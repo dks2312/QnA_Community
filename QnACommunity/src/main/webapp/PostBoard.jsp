@@ -25,7 +25,7 @@
 					<label for="category_items">카테고리</label> <select name="cat" id="category_items">
 						<option value="all">전체</option>
 						<option value="quest">질문</option>
-						<option value="error">오류&에러</option>
+						<option value="error">오류&amp;에러</option>
 					</select>
 				</div>
 				<div class="sort_selected">

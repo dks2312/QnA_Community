@@ -11,30 +11,13 @@
 <title>질문 있습니다!!!</title>
 </head>
 <body>
+	<% if(request.getAttribute("SignUpErrMsg") != null){%>
+	  <script>
+	    alert(<%=request.getAttribute("SignUpErrMsg") %>);
+	  </script>
+	<%}%>		
 	
-	<%
-	if(request.getAttribute("SignUpErrMsg") != null){
-	   out.println("<script>");
-	   out.println("alert('중복된 아이디가 존재합니다');");
-	   out.println("</script>");
-	   }
-	%>
-
-
-	<div id="wrap">
-		<div class="header">
-			<div class="back_btn">
-				<a href="./Login.jsp">뒤로가기</a>
-			</div>
-
-		</div>
-
-		<div class="sub_title">
-			<h1>회원가입</h1>
-		</div>
-		
-		
-		<script>
+	<script>
 		function validateForm(form){			
 			if(!form.id.value){
 				alert("아이디를 입력하세요");
@@ -51,7 +34,23 @@
 				return false;
 			}
 		}
-		</script>
+	</script>
+
+
+	<div id="wrap">
+		<div class="header">
+			<div class="back_btn">
+				<a href="./LogIn.jsp">뒤로가기</a>
+			</div>
+
+		</div>
+
+		<div class="sub_title">
+			<h1>회원가입</h1>
+		</div>
+		
+		
+
 		
 		
 

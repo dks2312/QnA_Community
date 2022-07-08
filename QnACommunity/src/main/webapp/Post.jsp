@@ -26,9 +26,7 @@
 			</div>
 			<hr>
 			<button>하트 : 1</button>
-			<button>
-				<a href="#">댓글 수</a>
-			</button>
+			<button>댓글 수 : 1</button>
 		</div>
 
 		<div class="comment_list">

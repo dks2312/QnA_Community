@@ -10,7 +10,6 @@
 </head>
 <body>
 	<div id="wrap">
-
 		<div class="title">
 			<div class="title_left">
 				<img src="./images/javaTitle.png" alt="QnA">
@@ -18,7 +17,7 @@
 			<div class="title_right">
 				<div class="title_day">남은 수업 일수 : D-999</div>
 				<div class="title_time">남은 수업 시간 : 99:99</div>
-				<% if(session.getAttribute("UserId") != null) {%><div class="title_wellcom"><%= session.getAttribute("UserId") %> 어서오세요</div><%} %>
+				<% if(session.getAttribute("UserId") != null) {%><div class="title_wellcom"><%= session.getAttribute("UserName") %> 님 어서오세요</div><%} %>
 			</div>
 		</div>
 		<hr>
@@ -33,7 +32,12 @@
 				<a href="./Character.jsp">일정</a>
 			</div>
 			<div class="btn">
-				<a href="./Login.jsp">로그인</a>
+				<%if(session.getAttribute("UserId") == null) {%>
+					<a href="./LogIn.jsp">로그인</a>
+				<%} else {%>
+					<a href="./LogOutProcess.jsp">로그아웃</a>
+				<%} %>
+				
 			</div>
 		</div>
 	</div>

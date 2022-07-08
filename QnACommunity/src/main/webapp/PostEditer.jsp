@@ -37,7 +37,7 @@
 				<select name="cat" id="post_category_items">
 					<option value="none">선택</option>
 					<option value="quest">질문</option>
-					<option value="error">오류&에러</option>
+					<option value="error">오류&amp;에러</option>
 				</select>
 			</div>
 		</div>
