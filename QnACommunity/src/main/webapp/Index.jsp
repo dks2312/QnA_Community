@@ -32,15 +32,6 @@
 					
 			diffStudentTime = ((diffTimeSec >= 0) ? ((diffTimeSec/(60*60))%24 +"시 "+ (diffTimeSec/60)%60) +"분 남았습니다" : "수업이 끝났습니다");
 			diffStudentDay = ((diffDaySec >= 0) ? (diffDaySec/(24*60*60)+"일 남았습니다") : "과정이 종료되었습니다");
-			
-			System.out.print(((diffTimeSec/(60*60))%24 +":"+ (diffTimeSec/60)%60));
-			
-			SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");  
-			
-			System.out.println();
-			System.out.println(format.format(nowDate));
-			System.out.println(format.format(studentDayDate));
-			System.out.println(format.format(studentTimeDate));
 		} catch (ParseException e) {
 		    e.printStackTrace();
 		}   
@@ -54,7 +45,7 @@
 			<div class="title_right">
 				<div class="title_day">남은 수업 일수 : <%= diffStudentDay %></div>
 				<div class="title_time">남은 수업 시간 : <%= diffStudentTime %></div>
-				<% if(session.getAttribute("UserId") != null) {%><div class="title_wellcom"><%= session.getAttribute("UserName") %> 님 어서오세요</div><%} %>
+				<div class="title_wellcom"><%= (session.getAttribute("UserName") != null ? session.getAttribute("UserName") : "익명의 사용자") %> 님 어서오세요</div>
 			</div>
 		</div>
 		<hr>

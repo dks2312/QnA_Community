@@ -15,16 +15,6 @@ public class MemberDAO {
 	private Statement stmt;
 	private ResultSet rs;
 	
-	public class ColumnData{
-		public String name;
-		public int size;
-		
-		public ColumnData(String name, int size) {
-			this.name = name;
-			this.size = size;
-		}
-	}
-	
 	public MemberDAO() {
 		connDB();
 	}
