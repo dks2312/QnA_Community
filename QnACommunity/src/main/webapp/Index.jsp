@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.util.Calendar"%>
+<%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="java.lang.Exception"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,14 +13,26 @@
 <title>질문 있습니다!!!</title>
 </head>
 <body>
+	<%
+		Calendar nowTime = Calendar.getInstance();
+		Calendar targetTime = Calendar.getInstance();
+		try {
+			targetTime.setTime((new SimpleDateFormat("yyyy-MM-dd")).parse("2022-10-26"));
+			
+			//String studentTime = (targetTime.getTime() - nowTime.getTime()) / 1000 / (24*60*60);
+		} catch (Exception e) {e.printStackTrace();}
+		String studentTime = null;
+		String studentDate = null;
+	%>
+
 	<div id="wrap">
 		<div class="title">
 			<div class="title_left">
 				<img src="./images/javaTitle.png" alt="QnA">
 			</div>
 			<div class="title_right">
-				<div class="title_day">남은 수업 일수 : D-999</div>
-				<div class="title_time">남은 수업 시간 : 99:99</div>
+				<div class="title_day">남은 수업 일수 : <%= studentDate %></div>
+				<div class="title_time">남은 수업 시간 : <%= studentTime %></div>
 				<% if(session.getAttribute("UserId") != null) {%><div class="title_wellcom"><%= session.getAttribute("UserName") %> 님 어서오세요</div><%} %>
 			</div>
 		</div>

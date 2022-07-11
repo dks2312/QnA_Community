@@ -7,13 +7,12 @@
 <link rel="stylesheet" href="./css/index.css">
 <link rel="stylesheet" href="./css/public/frame.css">
 <link rel="stylesheet" href="./css/sign_up_page.css">
-<!-- <script type="text/javascript" defer src="./js/testJS.js"></script>-->
 <title>질문 있습니다!!!</title>
 </head>
 <body>
 	<% if(request.getAttribute("SignUpErrMsg") != null){%>
 	  <script>
-	    alert(<%=request.getAttribute("SignUpErrMsg") %>);
+	    alert("<%=request.getAttribute("SignUpErrMsg") %>");
 	  </script>
 	<%}%>		
 	

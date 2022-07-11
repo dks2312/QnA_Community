@@ -14,10 +14,12 @@
 	String pw = request.getParameter("pw");
 	String nicName = request.getParameter("nic_name");
 	
-	MemberDAO memberDAO = new MemberDAO();
 	MemberVo memberVo = new MemberVo(id, pw, nicName);
 	
-	if(memberDAO.selected(memberVo) == null){
+	MemberDAO memberDAO = new MemberDAO();
+	MemberVo isUser = memberDAO.selected(memberVo);
+	
+	if(isUser == null){
 		memberDAO.insert(memberVo);
 		
 		response.sendRedirect("LogIn.jsp");
