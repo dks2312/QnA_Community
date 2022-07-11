@@ -1,22 +1,17 @@
 @charset "EUC-KR";
 
 .title {
-	width: 550px;
+	width: 100%;
 	height: 200px;
 	display: grid;
 	grid-template-rows: 200px;
-	grid-template-columns: 350px 200px;
+	grid-template-columns: minmax(350px, 7fr) minmax(200px, 4fr);
 	align-items: center;
 }
 
-.title_left {
+.title_left>img {
 	width: 350px;
 	height: 200px;
-}
-
-.title_left>img {
-	width: 100%;
-	height: 100%;
 }
 
 .title_right>div {

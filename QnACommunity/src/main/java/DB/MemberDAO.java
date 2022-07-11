@@ -29,7 +29,7 @@ public class MemberDAO {
 		connDB();
 	}
 
-	public MemberVo selected(MemberVo user) {
+	public MemberVO selected(MemberVO user) {
 		try {
 			String query = "SELECT id, password, nick_name FROM member WHERE id='"+ user.getId() +"' AND password='"+ user.getPassword() +"'";
 			System.out.println("SQL : " + query);
@@ -40,7 +40,7 @@ public class MemberDAO {
 			if (rs.getRow() == 0) 
 				System.out.println("0 row selected...");
 			else {
-				MemberVo userVo = new MemberVo(rs.getString(1), rs.getString(2), rs.getString(3));
+				MemberVO userVo = new MemberVO(rs.getString(1), rs.getString(2), rs.getString(3));
 				return userVo;
 			}
 		} catch (Exception e) {
@@ -51,7 +51,7 @@ public class MemberDAO {
 		return null;
 	}
 
-	public void insert(MemberVo user) {
+	public void insert(MemberVO user) {
 		try {
 			String query = "INSERT INTO member VALUES('"+ user.getId() +"', '"+ user.getPassword() +"', '"+ user.getNickName() + "')";
 			System.out.println("SQL : " + query);

@@ -3,7 +3,7 @@
 <%@ page import="java.util.Date"%>
 <%@ page import="java.util.Calendar"%>
 <%@ page import="java.text.SimpleDateFormat"%>
-<%@ page import="java.lang.Exception"%>
+<%@ page import="java.text.ParseException"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,15 +14,36 @@
 </head>
 <body>
 	<%
-		Calendar nowTime = Calendar.getInstance();
-		Calendar targetTime = Calendar.getInstance();
+		String strDay = "2022-10-26";	// 성그아 웹개발 과정 종료일
+	
+		String diffStudentTime = null;
+		String diffStudentDay = null;
+		
 		try {
-			targetTime.setTime((new SimpleDateFormat("yyyy-MM-dd")).parse("2022-10-26"));
+			Date nowDate = new Date();
+			Date studentDayDate = new SimpleDateFormat("yyyy-MM-dd").parse(strDay);
+			Calendar cal = Calendar.getInstance();
+			cal.set(Calendar.HOUR, 6);
+			cal.set(Calendar.MINUTE, 20);
+			Date studentTimeDate = cal.getTime();
 			
-			//String studentTime = (targetTime.getTime() - nowTime.getTime()) / 1000 / (24*60*60);
-		} catch (Exception e) {e.printStackTrace();}
-		String studentTime = null;
-		String studentDate = null;
+			long diffDaySec = (studentDayDate.getTime() - nowDate.getTime()) / 1000;
+			long diffTimeSec = (studentTimeDate.getTime() - nowDate.getTime()) / 1000;
+					
+			diffStudentTime = ((diffTimeSec >= 0) ? ((diffTimeSec/(60*60))%24 +"시 "+ (diffTimeSec/60)%60) +"분 남았습니다" : "수업이 끝났습니다");
+			diffStudentDay = ((diffDaySec >= 0) ? (diffDaySec/(24*60*60)+"일 남았습니다") : "과정이 종료되었습니다");
+			
+			System.out.print(((diffTimeSec/(60*60))%24 +":"+ (diffTimeSec/60)%60));
+			
+			SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");  
+			
+			System.out.println();
+			System.out.println(format.format(nowDate));
+			System.out.println(format.format(studentDayDate));
+			System.out.println(format.format(studentTimeDate));
+		} catch (ParseException e) {
+		    e.printStackTrace();
+		}   
 	%>
 
 	<div id="wrap">
@@ -31,8 +52,8 @@
 				<img src="./images/javaTitle.png" alt="QnA">
 			</div>
 			<div class="title_right">
-				<div class="title_day">남은 수업 일수 : <%= studentDate %></div>
-				<div class="title_time">남은 수업 시간 : <%= studentTime %></div>
+				<div class="title_day">남은 수업 일수 : <%= diffStudentDay %></div>
+				<div class="title_time">남은 수업 시간 : <%= diffStudentTime %></div>
 				<% if(session.getAttribute("UserId") != null) {%><div class="title_wellcom"><%= session.getAttribute("UserName") %> 님 어서오세요</div><%} %>
 			</div>
 		</div>

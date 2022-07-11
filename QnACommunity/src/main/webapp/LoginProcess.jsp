@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="DB.MemberDAO"%>
-<%@ page import="DB.MemberVo"%>
+<%@ page import="DB.MemberVO"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +14,7 @@
 	String pw = request.getParameter("pw");
 	
 	MemberDAO memberDAO = new MemberDAO();
-	MemberVo user = memberDAO.selected(new MemberVo(id, pw));
+	MemberVO user = memberDAO.selected(new MemberVO(id, pw));
 
 	if(user != null){
 		session.setAttribute("UserId", user.getId());
