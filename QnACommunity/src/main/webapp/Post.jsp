@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="DB.PostDAO" %>
+<%@ page import="DB.PostVO" %>
+<%
+	String num = request.getParameter("num");
+	
+	PostDAO dao = new PostDAO();
+	PostVO post = dao.selectPost(num);
+	
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,14 +29,14 @@
 		</div>
 
 		<div class="post">
-			<div class="post_title">제목 질문이 없는게 질문이에요</div>
+			<div class="post_title"><%= post.getTitle() %></div>
 			<hr>
 			<div class="post_body">
-				질문 게시판에 질문이 너무적어요 어떻게 하면<br> 질문 게시판에 질문이 많아 질 수 있을까요?
+				<%= post.getContent() %>
 			</div>
 			<hr>
-			<button>하트 : 1</button>
-			<button>댓글 수 : 1</button>
+			<button>하트 : <%= post.getLikeCount() %></button>
+			<button>댓글 수 : <%= post.getCommentCount() %></button>
 		</div>
 
 		<div class="comment_list">

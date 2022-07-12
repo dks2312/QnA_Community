@@ -20,26 +20,28 @@ public class PostDAO {
 		connDB();
 	}
 
-	public Queue<PostVO> search(Map<String, Object> map) {
+	public Queue<PostVO> selectList(Map<String, Object> map) {
 		Queue<PostVO> list = new LinkedList<PostVO>();
 		
 		try {
-			String query = "SELECT NUM, CATEGORY, TITLE, CONTENT, WRITER, POST_DATE, VISIT_COUNT, LIKE_COUNT, COMMENT_COUNT FROM POST ";
-			
-			if(map.get("searchTitle") != null) {
+			String query = "SELECT NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, LIKE_COUNT, COMMENT_COUNT, POST_DATE FROM POST ";
+			boolean flag = false;
+			// 검색
+			if(!(map.get("searchTitle") == null || map.get("searchTitle").equals(""))) {
 				query += "WHERE title LIKE '%"+ map.get("searchTitle") +"%' ";
+				flag = true;
 			} 
 			
-			if(map.get("searchCategory") != null) {
-				if(map.get("searchTitle") != null) 
-					query += "AND CATEGORY = '"+ map.get("searchCategory") +"' ";
-				else 
-					query += "WHERE title LIKE '%"+ map.get("searchTitle") +"%' ";
+			// 카테고리
+			if(!(map.get("searchCategory") == null || map.get("searchCategory").equals("all"))) {
+				query += (flag ? "AND" : "WHERE") +" CATEGORY = '"+ map.get("searchCategory") +"' ";
 			}
 			
-			if(map.get("searchSort") != null) query += "ORDER BY "+ map.get("searchSort");
-			else query += "ORDER BY num";
-			
+			// 정렬
+			if(map.get("searchSort") == null) 
+				query += "ORDER BY NUM";
+			else 
+				query += "ORDER BY "+ map.get("searchSort");
 			
 			System.out.println("SQL : " + query);
 			rs = stmt.executeQuery(query);
@@ -51,10 +53,10 @@ public class PostDAO {
 						rs.getString(3),
 						rs.getString(4),
 						rs.getString(5),
-						rs.getString(6),
+						rs.getInt(6),
 						rs.getInt(7),
 						rs.getInt(8),
-						rs.getInt(9));
+						rs.getString(9));
 				list.offer(tmp);
 			}
 		} catch (Exception e) {
@@ -63,6 +65,83 @@ public class PostDAO {
 		}
 
 		return list;
+	}
+	
+	public Queue<PostVO> selectListPage(Map<String, Object> map) {
+		Queue<PostVO> list = new LinkedList<PostVO>();
+		
+		String query = "SELECT NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, LIKE_COUNT, COMMENT_COUNT, POST_DATE FROM POST( "
+						+"	SELECT Tb.*, ROWNUM rNum FROM ( "
+						+"		SELECT * FROM POST ";
+		
+		boolean flag = false;
+		// 검색
+		if(!(map.get("searchTitle") == null || map.get("searchTitle").equals(""))) {
+			query += "WHERE title LIKE '%"+ map.get("searchTitle") +"%' ";
+			flag = true;
+		} 
+		
+		// 카테고리
+		if(!(map.get("searchCategory") == null || map.get("searchCategory").equals("all"))) {
+			query += (flag ? "AND" : "WHERE") +" CATEGORY = '"+ map.get("searchCategory") +"' ";
+		}
+		
+		// 정렬
+		if(map.get("searchSort") == null) 
+			query += "ORDER BY NUM";
+		else 
+			query += "ORDER BY "+ map.get("searchSort");
+		
+		query += "	) Tb"
+				+")"
+				+"WHERE rNum BETWEEN ? AND ?";
+		
+		System.out.println("SQL : " + query);
+		
+		try {
+			rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				PostVO tmp = new PostVO(
+						rs.getString(1),
+						rs.getString(2),
+						rs.getString(3),
+						rs.getString(4),
+						rs.getString(5),
+						rs.getInt(6),
+						rs.getInt(7),
+						rs.getInt(8),
+						rs.getString(9));
+				list.offer(tmp);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return list;
+	}
+	
+	public PostVO selectPost(String num) {		
+		try {
+			String query = "SELECT NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, LIKE_COUNT, COMMENT_COUNT, POST_DATE FROM POST WHERE num = '"+ num +"'";
+			
+			System.out.println("SQL : " + query);
+			rs = stmt.executeQuery(query);
+			rs.last();
+			
+			if(rs.getRow() == 0) {
+				System.out.println("0 row selected...");
+			}else {
+				PostVO post = new PostVO(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), 
+						rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9));
+				return post;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 	public void insert(PostVO post) {

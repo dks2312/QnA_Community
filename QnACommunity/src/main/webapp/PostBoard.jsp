@@ -4,7 +4,7 @@
 <%@ page import="DB.PostDAO" %>
 <%@ page import="DB.PostVO" %>
 <%
-	PostDAO postDAO = new PostDAO();
+PostDAO postDAO = new PostDAO();
 
 	Map<String, Object> param = new HashMap<String, Object>();
 	String searchTitle = request.getParameter("searchTitle");
@@ -15,7 +15,7 @@
 	if(searchSort != null) param.put("searchSort", searchSort);
 	if(searchCategory != null) param.put("searchCategory", searchCategory);
 	
-	Queue<PostVO> postList = postDAO.search(param);
+	Queue<PostVO> postList = postDAO.selectList(param);
 %>
 <!DOCTYPE html>
 <html>
@@ -42,16 +42,19 @@
 			<div class="board_set">
 				<div class="seting">
 					<div class="category_selected">
-						<label for="category_items">카테고리</label> <select name="searchCategory" id="category_items">
+						<label for="category_items">카테고리</label> 
+						<select name="searchCategory" id="category_items">
 							<option value="all">전체</option>
 							<option value="quest">질문</option>
 							<option value="error">오류&amp;에러</option>
 						</select>
 					</div>
 					<div class="sort_selected">
-						<label for="sort_items">정렬</label> <select name="searchSort"	id="sort_items">
-							<option value="latest">최신순</option>
-							<option value="popular">인기순</option>
+						<label for="sort_items">정렬</label> 
+						<select name="searchSort" id="sort_items">
+							<option value="NUM">기본</option>
+							<option value="POST_DATE">최신순</option>
+							<option value="LIKE_COUNT">인기순</option>
 						</select>
 					</div>
 				</div>
