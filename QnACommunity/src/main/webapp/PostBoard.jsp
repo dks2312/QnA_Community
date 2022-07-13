@@ -3,8 +3,9 @@
 <%@ page import="java.util.*" %>
 <%@ page import="DB.PostDAO" %>
 <%@ page import="DB.PostVO" %>
+<%@ page import="utils.BoardPage" %>
 <%
-PostDAO postDAO = new PostDAO();
+	PostDAO postDAO = new PostDAO();
 
 	Map<String, Object> param = new HashMap<String, Object>();
 	String searchTitle = request.getParameter("searchTitle");
@@ -15,7 +16,28 @@ PostDAO postDAO = new PostDAO();
 	if(searchSort != null) param.put("searchSort", searchSort);
 	if(searchCategory != null) param.put("searchCategory", searchCategory);
 	
-	Queue<PostVO> postList = postDAO.selectList(param);
+	int totalCount = postDAO.selectCount(param);
+	
+	// 페이지 처리 부분
+	// 전체 페이지 수 계산
+	int pageSize = Integer.parseInt(application.getInitParameter("POSTS_PER_PAGE"));
+	int blockPage = Integer.parseInt(application.getInitParameter("PAGES_PER_BLOCK"));
+	int totalPage = (int)Math.ceil((double)totalCount / pageSize);	// 페이지 수 = (게시글 전체 개수)/(한 페이지당 보여지는 개수) 반드시 올림해야 됨
+	
+	// 현재 페이지 확인
+	int pageNum = 1;
+	String pageTemp = request.getParameter("pageNum");
+	if(pageTemp != null && !pageTemp.equals("")) pageNum = Integer.parseInt(pageTemp);
+	
+	// 목록에 출력할 게시물 범위 계산
+	int start = (pageNum - 1) * pageSize + 1;
+	int end = pageNum * pageSize;
+	param.put("start", start);
+	param.put("end", end);
+	
+	
+	Queue<PostVO> postList = postDAO.selectListPage(param);
+	postDAO.close();
 %>
 <!DOCTYPE html>
 <html>
@@ -81,12 +103,17 @@ PostDAO postDAO = new PostDAO();
 				<div class="no_post">등록된 게시물이 없습니다</div>
 			<%
 			} else{
+				int virtualNumber = 0;
+				int countNum = 0;
+				
 				for(PostVO post : postList){
+					post.print();
+					virtualNumber = totalCount - (((pageNum - 1) * pageSize) + countNum++);
 			%>
 					<div class="post">
 						<div class="post_category"><%= post.getCartegory() %></div>
 						<div class="post_title">
-							<a href="./Post.jsp?num= <%= post.getNum() %>"><%= post.getTitle() %></a>
+							<a href="./Post.jsp?num=<%= post.getNum() %>"><%= post.getTitle() %></a>
 						</div>
 						<div class="post_view">조회수 : <%= post.getVisitCount() %></div>
 						<div class="post_comment_count">댓글 : <%= post.getCommentCount() %></div>
@@ -95,23 +122,15 @@ PostDAO postDAO = new PostDAO();
 					</div>
 			<%
 				}
+			%>
+				</div>
+				<div class="post_board_number">
+				<%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, request.getRequestURI()) %>
+				</div>
+			<%
 			}
 			%>
-		</div>
-		<div class="post_board_number">
-			<div class="page_first_btn">처음</div>
-			<div class="page_number_btn">1</div>
-			<div class="page_number_btn">2</div>
-			<div class="page_number_btn">3</div>
-			<div class="page_number_btn">4</div>
-			<div class="page_number_btn">5</div>
-			<div class="page_number_btn">6</div>
-			<div class="page_number_btn">7</div>
-			<div class="page_number_btn">8</div>
-			<div class="page_number_btn">9</div>
-			<div class="page_number_btn">10</div>
-			<div class="page_last_btn">마지막</div>
-		</div>
+		
 		<footer class="footer"> Lorem ipsum dolor sit amet
 			consectetur adipisicing elit. Ipsa, tenetur at! Quia necessitatibus
 			doloremque voluptas in nulla, qui natus? Quia rerum recusandae omnis
