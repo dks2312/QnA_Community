@@ -2,11 +2,14 @@ package DB;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class MemberDAO {	
+public class CommentDAO {	
 	private String driver = "oracle.jdbc.driver.OracleDriver";
 	private String url = "jdbc:oracle:thin:@localhost:1521:xe";
 	private String user = "c##green";
@@ -16,7 +19,7 @@ public class MemberDAO {
 	private Statement stmt;
 	private ResultSet rs;
 	
-	public MemberDAO() {
+	public CommentDAO() {
 		connDB();
 	}
 	
@@ -26,42 +29,46 @@ public class MemberDAO {
 			stmt.close();
 			rs.close();
 		} catch (SQLException e) {
-			System.out.println("메모리 해제중 에러\n");
+			System.out.println("DB 연결 해제중 에러\n");
 			e.printStackTrace();
 		}
 	}
 	
 	
 
-	public MemberVO selected(String id, String password) {
+	public Queue<CommentVO> commentList(long post) {
+		Queue<CommentVO> commentQ = new LinkedList<CommentVO>();
+		
+		String query = "SELECT c.CONTENT, c.LIKE_COUNT, c.COMMENT_DATE, m.NICK_NAME  "
+					+ "FROM COMMENTTABLE c, POST p, MEMBER m "
+					+ "WHERE c.POST_NUM = p.NUM AND c.WRITER_ID = m.ID "
+					+ "AND POST_NUM = "+ post +" ";
+		System.out.println("SQL : " + query);
+		
 		try {
-			String query = "SELECT id, password, nick_name FROM member WHERE id='"+ id +"' AND password='"+ password +"'";
-			System.out.println("SQL : " + query);
 			rs = stmt.executeQuery(query);
-			rs.last();
-			System.out.println("rs.getRow() : " + rs.getRow());
-			
-			if (rs.getRow() == 0) 
-				System.out.println("0 row selected...");
-			else {
-				MemberVO userVo = new MemberVO(rs.getString(1), rs.getString(2), rs.getString(3));
-				return userVo;
+			while(rs.next()) {
+				CommentVO commentVO = new CommentVO(rs.getString(1), rs.getInt(2), rs.getString(3));
+				commentVO.setWriterName(rs.getString(4));
+				commentQ.offer(commentVO);
 			}
 		} catch (Exception e) {
-//			System.out.println("Error : "+ e.getMessage());
 			e.printStackTrace();
 		}
 
-		return null;
+		return commentQ;
 	}
 
-	public void insert(MemberVO user) {
+	public void insert(long post, String user, String content) {
+		String query = "INSERT INTO COMMENTTABLE(POST_NUM,	WRITER_ID, CONTENT) VALUES(?, '?', '?')";
+		System.out.println("SQL : " + query);
+		
 		try {
-			String query = "INSERT INTO member VALUES('"+ user.getId() +"', '"+ user.getPassword() +"', '"+ user.getNickName() + "')";
-			System.out.println("SQL : " + query);
-			rs = stmt.executeQuery(query);
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setLong(1, post);
+			ps.setString(2, user);
+			ps.setString(3, content);
 		} catch (Exception e) {
-//			System.out.println("Error : "+ e.getMessage());
 			e.printStackTrace();
 		}
 	}	

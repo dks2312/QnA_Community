@@ -77,6 +77,7 @@
 							<option value="NUM">기본</option>
 							<option value="POST_DATE">최신순</option>
 							<option value="LIKE_COUNT">인기순</option>
+							<option value="VISIT_COUNT">조회순</option>
 						</select>
 					</div>
 				</div>

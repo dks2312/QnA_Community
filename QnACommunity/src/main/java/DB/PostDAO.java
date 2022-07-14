@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -80,7 +79,7 @@ public class PostDAO {
 			if(map.get("searchSort") == null) 
 				query += "ORDER BY NUM";
 			else 
-				query += "ORDER BY "+ map.get("searchSort");
+				query += "ORDER BY "+ map.get("searchSort") +" DESC";
 			
 			System.out.println("SQL : " + query);
 			rs = stmt.executeQuery(query);
@@ -129,7 +128,7 @@ public class PostDAO {
 		if(map.get("searchSort") == null) 
 			query += "ORDER BY NUM";
 		else 
-			query += "ORDER BY "+ map.get("searchSort");
+			query += "ORDER BY "+ map.get("searchSort") +" DESC";
 		
 		query += "	) Tb"
 				+")"

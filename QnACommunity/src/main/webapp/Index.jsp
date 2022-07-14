@@ -4,6 +4,7 @@
 <%@ page import="java.util.Calendar"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.text.ParseException"%>
+<%@ page import="DB.MemberVO"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,18 +24,23 @@
 			Date nowDate = new Date();
 			Date studentDayDate = new SimpleDateFormat("yyyy-MM-dd").parse(strDay);
 			Calendar cal = Calendar.getInstance();
-			cal.set(Calendar.HOUR, 6);
+			cal.set(Calendar.HOUR, 18);
 			cal.set(Calendar.MINUTE, 20);
 			Date studentTimeDate = cal.getTime();
 			
 			long diffDaySec = (studentDayDate.getTime() - nowDate.getTime()) / 1000;
 			long diffTimeSec = (studentTimeDate.getTime() - nowDate.getTime()) / 1000;
-					
+			
+			diffStudentDay = ((diffDaySec >= 0) ? (diffDaySec/(24*60*60)+"일 남았습니다") : "과정이 종료되었습니다");		
 			diffStudentTime = ((diffTimeSec >= 0) ? ((diffTimeSec/(60*60))%24 +"시 "+ (diffTimeSec/60)%60) +"분 남았습니다" : "수업이 끝났습니다");
-			diffStudentDay = ((diffDaySec >= 0) ? (diffDaySec/(24*60*60)+"일 남았습니다") : "과정이 종료되었습니다");
 		} catch (ParseException e) {
 		    e.printStackTrace();
 		}   
+		
+		String userName = "익명의 사용자";
+		if(session.getAttribute("User") != null){
+			userName = ((MemberVO)session.getAttribute("User")).getNickName();
+		}
 	%>
 
 	<div id="wrap">
@@ -45,7 +51,7 @@
 			<div class="title_right">
 				<div class="title_day">남은 수업 일수 : <%= diffStudentDay %></div>
 				<div class="title_time">남은 수업 시간 : <%= diffStudentTime %></div>
-				<div class="title_wellcom"><%= (session.getAttribute("UserName") != null ? session.getAttribute("UserName") : "익명의 사용자") %> 님 어서오세요</div>
+				<div class="title_wellcom"><%= userName %> 님 어서오세요</div>
 			</div>
 		</div>
 		<hr>
@@ -60,7 +66,7 @@
 				<a href="./Character.jsp">일정</a>
 			</div>
 			<div class="btn">
-				<%if(session.getAttribute("UserId") == null) {%>
+				<%if(session.getAttribute("User") == null) {%>
 					<a href="./LogIn.jsp">로그인</a>
 				<%} else {%>
 					<a href="./LogOutProcess.jsp">로그아웃</a>

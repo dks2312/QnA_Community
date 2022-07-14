@@ -14,15 +14,13 @@
 	String pw = request.getParameter("pw");
 	
 	MemberDAO memberDAO = new MemberDAO();
-	MemberVO user = memberDAO.selected(new MemberVO(id, pw));
-
-	if(user != null){
-		session.setAttribute("UserId", user.getId());
-		session.setAttribute("UserName", user.getNickName());
-		
+	MemberVO member = memberDAO.selected(id, pw);
+	
+	if(member != null){
+		session.setAttribute("User", member);
 		response.sendRedirect("Index.jsp");
 	}else{
-		request.setAttribute("LoginErrMsg", "아이디가 존재하지 않습니다.");
+		request.setAttribute("LoginErrMsg", "로그인 정보가 맞지 않습니다.");
 		request.getRequestDispatcher("LogIn.jsp").forward(request, response);
 	}
 %>

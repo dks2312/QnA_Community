@@ -8,26 +8,24 @@ public class BoardPage {
 		
 		int pageTemp = (((pageNum - 1) / blockPage) * blockPage) + 1;
 		
-		if(pageTemp != 1) {
-			pagingStr += "<a href='"+ reqUrl +"?pageNum="+ pageTemp +"' class=\"page_number_btn\">[첫 블록]</a>";
-		}
+		pagingStr += "<a href='"+ reqUrl +"?pageNum="+ 1 +"' class=\"page_number_btn "+ ((pageTemp != 1) ? "":"off") +"\">&lt;&lt;&lt;</a>";
+		pagingStr += "<a href='"+ reqUrl +"?pageNum="+ (pageTemp - 1) +"' class=\"page_number_btn "+ ((pageTemp != 1) ? "":"off") +"\">&lt;</a>";
 		
 		int blockCount = 1;
 		while(blockCount <= blockPage && pageTemp <= totalPages) {
 			if(pageTemp == pageNum) {
-				pagingStr += "&nbsp;<a href='"+ reqUrl + "?pageNum=" + pageTemp +"' class=\"page_number_btn on\" >" + pageTemp +"</a>&nbsp;";
+				pagingStr += "<a href='"+ reqUrl + "?pageNum=" + pageTemp +"' class=\"page_number_btn on\" >" + pageTemp +"</a>";
 			}
 			else {
-				pagingStr += "&nbsp;<a href='"+ reqUrl + "?pageNum=" + pageTemp +"' class=\"page_number_btn\" >" + pageTemp +"</a>&nbsp;";
+				pagingStr += "<a href='"+ reqUrl + "?pageNum=" + pageTemp +"' class=\"page_number_btn\" >" + pageTemp +"</a>";
 			}
 			
 			pageTemp++;
 			blockCount++;
 		}
 		
-		if(pageTemp <= totalPages) {
-			pagingStr += "<a href='"+ reqUrl +"?pageNum="+ pageTemp +"' class=\"page_number_btn\">[마지막 블록]</a>";
-		}
+		pagingStr += "<a href='"+ reqUrl +"?pageNum="+ pageTemp +"' class=\"page_number_btn "+ ((pageTemp <= totalPages) ? "":"off") +"\">&gt;</a>";
+		pagingStr += "<a href='"+ reqUrl +"?pageNum="+ totalPages +"' class=\"page_number_btn "+ ((pageTemp + blockPage <= totalPages) ? "":"off") +"\">&gt;&gt;&gt;</a>";
 		
 		return pagingStr;
 	}

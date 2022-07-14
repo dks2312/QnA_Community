@@ -5,6 +5,7 @@ public class MemberVO {
 	private String password;
 	private String nickName = "익명의 사용자";
 	
+	
 	public MemberVO(String id, String password) {
 		this.id = id;
 		this.password = password;
