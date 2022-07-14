@@ -39,7 +39,7 @@ public class CommentDAO {
 	public Queue<CommentVO> commentList(long post) {
 		Queue<CommentVO> commentQ = new LinkedList<CommentVO>();
 		
-		String query = "SELECT c.CONTENT, c.LIKE_COUNT, c.COMMENT_DATE, m.NICK_NAME  "
+		String query = "SELECT m.NICK_NAME, c.CONTENT, c.LIKE_COUNT, c.COMMENT_DATE "
 					+ "FROM COMMENTTABLE c, POST p, MEMBER m "
 					+ "WHERE c.POST_NUM = p.NUM AND c.WRITER_ID = m.ID "
 					+ "AND POST_NUM = "+ post +" ";
@@ -48,8 +48,7 @@ public class CommentDAO {
 		try {
 			rs = stmt.executeQuery(query);
 			while(rs.next()) {
-				CommentVO commentVO = new CommentVO(rs.getString(1), rs.getInt(2), rs.getString(3));
-				commentVO.setWriterName(rs.getString(4));
+				CommentVO commentVO = new CommentVO(post, rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4));
 				commentQ.offer(commentVO);
 			}
 		} catch (Exception e) {
@@ -60,7 +59,7 @@ public class CommentDAO {
 	}
 
 	public void insert(long post, String user, String content) {
-		String query = "INSERT INTO COMMENTTABLE(POST_NUM,	WRITER_ID, CONTENT) VALUES(?, '?', '?')";
+		String query = "INSERT INTO COMMENTTABLE(POST_NUM,	WRITER_ID, CONTENT) VALUES(?, ?, ?)";
 		System.out.println("SQL : " + query);
 		
 		try {
@@ -68,6 +67,7 @@ public class CommentDAO {
 			ps.setLong(1, post);
 			ps.setString(2, user);
 			ps.setString(3, content);
+			ps.executeQuery();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -18,31 +18,52 @@
 <title>질문 있습니다!!!</title>
 </head>
 <body>
+	<script>
+		function validateForm(form){			
+			if(form.post_title_input.value == ""){
+				alert("제목을 입력하세요");
+				return false;
+			}
+			
+			if(form.category.value == "none"){
+				alert("카테고리를 선택하세요");
+				return false;
+			}
+			
+			if(form.editordata.value == ""){
+				alert("내용을 입력하세요");
+				return false;
+			}
+		}
+	</script>
+
 	<div id="wrap">
+		
 		<header class="header">
 			<div class="back_btn">
 				<a href="./PostBoard.jsp">뒤로가기</a>
 			</div>
 			<div class="search_pane"></div>
-			<button class="action_btn">글 게시하기</button>
+			<button  class="action_btn" form="new_post_form" >글 게시하기</button>
 		</header>
-		<div class="post_property">
-			<div class="post_title">
-				<label for="post_title_input">제목</label> 
-				<input type="text" name="post_title_input">
+		
+		<form method="post" onsubmit="return validateForm(this)" id="new_post_form" action="PostUpLoadProcess.jsp">
+			<div class="post_property">
+				<div class="post_title">
+					<label for="post_title_input">제목</label> 
+					<input type="text" name="post_title_input">
+				</div>
+	
+				<div class="post_category_selected">
+					<label for="post_category_items">카테고리</label> 
+					<select name="category" id="post_category_items">
+						<option value="none">선택</option>
+						<option value="quest">질문</option>
+						<option value="error">오류&amp;에러</option>
+					</select>
+				</div>
 			</div>
 
-			<div class="post_category_selected">
-				<label for="post_category_items">카테고리</label> 
-				<select name="cat" id="post_category_items">
-					<option value="none">선택</option>
-					<option value="quest">질문</option>
-					<option value="error">오류&amp;에러</option>
-				</select>
-			</div>
-		</div>
-
-		<form method="post">
 			<textarea id="summernote" name="editordata"></textarea>
 		</form>
 

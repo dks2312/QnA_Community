@@ -13,7 +13,7 @@ a {
 
 #wrap {
 	width: 900px;
-	height: 900px;
+	min-height: 900px;
 	margin: 0 auto;
 	background-color: aliceblue;
 	padding: 15px;

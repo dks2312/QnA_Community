@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class PostDAO {
@@ -186,16 +185,22 @@ public class PostDAO {
 		return null;
 	}
 
-//	public void insert(PostVO post) {
-//		try {
-//			String query = "INSERT INTO POST(NUM, CATEGORY, TITLE, CONTENT, WRITER) "
-//					+ "VALUES(SEO_POST_NUM.NEXTVAL, '"+ post.getCartegory() + "', '"+ post.getTitle() + "', '"+ post.getContent() + "', '"+ post.getWriter() + "')";
-//			System.out.println("SQL : " + query);
-//			rs = stmt.executeQuery(query);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}	
+	public void insert(String cartegory, String title, String content, String writer) {
+		String query = "INSERT INTO POST(NUM, CATEGORY, TITLE, CONTENT, WRITER) "
+					+ "VALUES(SEO_POST_NUM.NEXTVAL, ?, ?, ?, ?)";
+		System.out.println("SQL : " + query);
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, cartegory);
+			ps.setString(2, title);
+			ps.setString(3, content);
+			ps.setString(4, writer);
+			rs = ps.executeQuery();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}	
 
 	private void connDB() {
 		try {
@@ -211,46 +216,46 @@ public class PostDAO {
 		}
 	}
 	
-	private void dummyInsert(String cartegory, String title, String content, String writer, 
-			int visitCount, int likeCount, int commentCount, String postDate) {
-		try {
-			String query = "INSERT INTO POST(NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, LIKE_COUNT, COMMENT_COUNT, POST_DATE) "
-					+ "VALUES(SEO_POST_NUM.NEXTVAL, '"+ cartegory + "', '"+ title + "', '"+ content + "', '"+ writer + "', "
-						+ "'"+ visitCount + "', '"+ likeCount + "', '"+ commentCount + "', "
-						+ "to_date('"+ postDate +"','YYYY/MM/DD HH24:MI'))";
-			System.out.println("SQL : " + query);
-				rs = stmt.executeQuery(query);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}	
+//	private void dummyInsert(String cartegory, String title, String content, String writer, 
+//			int visitCount, int likeCount, int commentCount, String postDate) {
+//		try {
+//			String query = "INSERT INTO POST(NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, LIKE_COUNT, COMMENT_COUNT, POST_DATE) "
+//					+ "VALUES(SEO_POST_NUM.NEXTVAL, '"+ cartegory + "', '"+ title + "', '"+ content + "', '"+ writer + "', "
+//						+ "'"+ visitCount + "', '"+ likeCount + "', '"+ commentCount + "', "
+//						+ "to_date('"+ postDate +"','YYYY/MM/DD HH24:MI'))";
+//			System.out.println("SQL : " + query);
+//				rs = stmt.executeQuery(query);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}	
 	
-	public static void main(String[] args) {
-		PostDAO dao = new PostDAO();
-		
-		for(int i = 1; true; i++) {
-			
-			try {
-				int visitCount = (int)(Math.random() * 100);
-				int likeCount = (int)(Math.random() * 100);
-				int commentCount = (int)(Math.random() * 10);
-				
-				Calendar cal = Calendar.getInstance();
-				SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-				
-				cal.add(Calendar.DATE, -(int)(Math.random() * 1000));
-				
-				String date = df.format(cal.getTime());
-				
-				
-				dao.dummyInsert("quest", "더미 게시글 "+i, "이게 질문인가"+ i, "dks2312", visitCount, likeCount, commentCount, date);
-			} catch (Exception e) {
-				System.out.println("더이상 Insert 할 수 없습니다!!\n");
-				e.printStackTrace();
-				
-				break;
-			}
-		}
-	}
+//	public static void main(String[] args) {
+//		PostDAO dao = new PostDAO();
+//		
+//		for(int i = 1; true; i++) {
+//			
+//			try {
+//				int visitCount = (int)(Math.random() * 100);
+//				int likeCount = (int)(Math.random() * 100);
+//				int commentCount = (int)(Math.random() * 10);
+//				
+//				Calendar cal = Calendar.getInstance();
+//				SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+//				
+//				cal.add(Calendar.DATE, -(int)(Math.random() * 1000));
+//				
+//				String date = df.format(cal.getTime());
+//				
+//				
+//				dao.dummyInsert("quest", "더미 게시글 "+i, "이게 질문인가"+ i, "dks2312", visitCount, likeCount, commentCount, date);
+//			} catch (Exception e) {
+//				System.out.println("더이상 Insert 할 수 없습니다!!\n");
+//				e.printStackTrace();
+//				
+//				break;
+//			}
+//		}
+//	}
 	
 }

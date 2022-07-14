@@ -48,6 +48,11 @@
 <title>질문 있습니다!!!</title>
 </head>
 <body>
+	<% if(request.getAttribute("PostEditerErrMsg") != null){%>
+	  <script>
+	    alert("<%=request.getAttribute("PostEditerErrMsg") %>");
+	  </script>
+	<%}%>
 
 	<div id="wrap">
 		<form method="get">
@@ -83,7 +88,7 @@
 				</div>
 	
 				<div class="post_write">
-					<a href="./PostEditer.jsp">글 작성하기</a>
+					<a href="./PostEditer.jsp">새 글 작성하기</a>
 				</div>
 			</div>
 		</form>

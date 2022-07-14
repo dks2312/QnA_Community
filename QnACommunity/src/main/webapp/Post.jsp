@@ -69,13 +69,17 @@
 		}
 		%>
 		<div class="comment_add">
+			
 			<div class="comment_info">
 				<div class="user_name"><%= userName %></div>
-				<div class="date"><%= new SimpleDateFormat("yyyy-MM-dd").format(new Date()) %></div>
-				<button class="add">작성</button>
+				<div class="date"><%= new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()) %></div>
+				<button class="add" form="new_comment_form">작성</button>
 			</div>
 			<hr>
-			<textarea name="" class="comment_textFiled" ></textarea>
+			<form method="post" onsubmit="return validateForm(this)" id="new_comment_form" action="CommentUpLoadProcess.jsp?num=<%= num %>">
+				<textarea name="comment_text" class="comment_textFiled" ></textarea>
+			</form>
+			
 		</div>
 		<footer class="footer"> Lorem ipsum, dolor sit amet
 			consectetur adipisicing elit. Dolores odio debitis dignissimos saepe,

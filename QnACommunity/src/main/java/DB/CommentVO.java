@@ -7,12 +7,6 @@ public class CommentVO {
 	private int listCount;
 	private String date;
 	
-	public CommentVO(){}
-	public CommentVO(String content, int listCount, String date) {
-		this.content = content;
-		this.listCount = listCount;
-		this.date = date;
-	}
 	public CommentVO(long post_FK, String writerName, String content, int listCount, String date) {
 		this.post_FK = post_FK;
 		this.writerName = writerName;
