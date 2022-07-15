@@ -12,18 +12,21 @@
 	String num = request.getParameter("num");
 	long numL = Long.parseLong(num);
 	
-	PostDAO postDao = new PostDAO();
-	PostVO post = postDao.selectPost(num);
+	// 조회수 증가, 게시글 내용 불러오기
+	PostDAO postDao = new PostDAO(application);
+	postDao.updateVisitCount(num);	
+	PostVO post = postDao.selectPost(num);	
+	postDao.close();
 	
-	CommentDAO comDao = new CommentDAO();
+	// 게시글 댓글 불러오기
+	CommentDAO comDao = new CommentDAO(application);
 	Queue<CommentVO> commentQ = comDao.commentList(numL);
+	comDao.close();
 	
 	String userName = "익명의사용자";
 	if(session.getAttribute("User") != null){
 		userName = ((MemberVO)session.getAttribute("User")).getNickName();
 	}
-	
-	postDao.updateVisitCount(num);
 %>
 <!DOCTYPE html>
 <html>

@@ -14,12 +14,16 @@
 		String pw = request.getParameter("pw");
 		String nicName = request.getParameter("nic_name");
 		
-		// if(id.getBytes().length)
+		// 입력 제한 기능 만들기
 		
+		// 회원가입한 정보를 조합(?)
 		MemberVO memberVo = new MemberVO(id, pw, nicName);
 		
-		MemberDAO memberDAO = new MemberDAO();
+		// 회원가입한 ID가 이미 존재하는지 검사
+		MemberDAO memberDAO = new MemberDAO(application);
 		MemberVO isUser = memberDAO.selected(id, pw);
+		memberDAO.close();
+		
 		
 		if(isUser == null){
 			memberDAO.insert(memberVo);
@@ -29,8 +33,6 @@
 			request.setAttribute("SignUpErrMsg", "중복된 아이디가 존재합니다.");
 			request.getRequestDispatcher("SignUp.jsp").forward(request, response);
 		}
-		
-		memberDAO.close();
 	%>
 </body>
 </html>

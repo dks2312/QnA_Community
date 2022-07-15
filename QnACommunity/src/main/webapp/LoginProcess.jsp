@@ -13,8 +13,10 @@
 	String id = request.getParameter("id");
 	String pw = request.getParameter("pw");
 	
-	MemberDAO memberDAO = new MemberDAO();
+	MemberDAO memberDAO = new MemberDAO(application);
 	MemberVO member = memberDAO.selected(id, pw);
+	memberDAO.close();
+	
 	
 	if(member != null){
 		session.setAttribute("User", member);

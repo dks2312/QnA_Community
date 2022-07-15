@@ -5,7 +5,7 @@
 <%@ page import="DB.PostVO" %>
 <%@ page import="utils.BoardPage" %>
 <%
-	PostDAO postDAO = new PostDAO();
+	PostDAO postDAO = new PostDAO(application);
 
 	Map<String, Object> param = new HashMap<String, Object>();
 	String searchTitle = request.getParameter("searchTitle");
@@ -37,6 +37,7 @@
 	
 	
 	Queue<PostVO> postList = postDAO.selectListPage(param);
+	
 	postDAO.close();
 %>
 <!DOCTYPE html>

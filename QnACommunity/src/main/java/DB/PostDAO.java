@@ -1,38 +1,18 @@
 package DB;
 
 import java.sql.Clob;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import javax.servlet.ServletContext;
 
-public class PostDAO {
-	private String driver = "oracle.jdbc.driver.OracleDriver";
-	private String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	private String user = "c##green";
-	private String password = "green1234";
 
-	private Connection con;
-	private Statement stmt;
+public class PostDAO extends myDAO{
+	public PostDAO(){ super(); }
+	public PostDAO(ServletContext application){ super(application); }
 	
-	public PostDAO() {
-		connDB();
-	}
-	
-	public void close() {
-		try {
-			con.close();
-			stmt.close();
-		} catch (SQLException e) {
-			System.out.println("DB를 닫는 도중 오류가 발생했습니다\n"+ e.getMessage());
-		}
-	}
-	
+	// 식별번호에 해당하는 게시글에 조회수를 하나 올려줌
 	public void updateVisitCount(String num) {
 		String query = "UPDATE POST "
 					+ "SET VISIT_COUNT = VISIT_COUNT + 1 "
@@ -40,15 +20,16 @@ public class PostDAO {
 		System.out.println("SQL : " + query);
 		
 		try {
-			PreparedStatement ps = con.prepareStatement(query);
-			ps.setString(1, num);
-			ps.executeUpdate();
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, num);
+			psmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 	}
 	
+	// 검색된 게시글의 총 개수를 구함
 	public int selectCount(Map<String, Object> map) {
 		String query = "SELECT Count(*) FROM POST ";
 		
@@ -59,7 +40,7 @@ public class PostDAO {
 		System.out.println(query);
 		
 		try {
-			ResultSet rs = stmt.executeQuery(query);
+			rs = stmt.executeQuery(query);
 			rs.last();
 			
 			if(rs.getRow() != 0) {
@@ -68,61 +49,14 @@ public class PostDAO {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("DB에서 전체 개수를 불러오는 과정에서 오류가 발생했습니다\n"+ e.getMessage());
-//			e.printStackTrace();
+			System.out.println("DB에서 전체 개수를 불러오는 과정에서 오류");
+			e.printStackTrace();
 		}
 		
 		return 0;
 	}
-/*
-	public Queue<PostVO> selectList(Map<String, Object> map) {
-		Queue<PostVO> list = new LinkedList<PostVO>();
-		
-		try {
-			String query = "SELECT NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, LIKE_COUNT, COMMENT_COUNT, POST_DATE FROM POST ";
-			boolean flag = false;
-			// 검색
-			if(map.get("searchTitle") != null) {
-				query += "WHERE title LIKE '%"+ map.get("searchTitle") +"%' ";
-				flag = true;
-			} 
-			
-			// 카테고리
-			if(!(map.get("searchCategory") == null || map.get("searchCategory").equals("all"))) {
-				query += (flag ? "AND" : "WHERE") +" CATEGORY = '"+ map.get("searchCategory") +"' ";
-			}
-			
-			// 정렬
-			if(map.get("searchSort") == null) 
-				query += "ORDER BY NUM";
-			else 
-				query += "ORDER BY "+ map.get("searchSort") +" DESC";
-			
-			System.out.println("SQL : " + query);
-			rs = stmt.executeQuery(query);
-			
-			while(rs.next()) {
-				PostVO tmp = new PostVO(
-						rs.getInt(1),
-						rs.getString(2),
-						rs.getString(3),
-						rs.getString(4),
-						rs.getString(5),
-						rs.getInt(6),
-						rs.getInt(7),
-						rs.getInt(8),
-						rs.getString(9));
-				list.offer(tmp);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-
-		return list;
-	}
- */
 	
+	// 페이징 기능
 	public Queue<PostVO> selectListPage(Map<String, Object> map) {
 		Queue<PostVO> list = new LinkedList<PostVO>();
 		
@@ -155,11 +89,11 @@ public class PostDAO {
 		System.out.println("SQL : " + query);
 		
 		try {
-			PreparedStatement psmt = con.prepareStatement(query);
+			psmt = con.prepareStatement(query);
 			psmt.setString(1, map.get("start").toString());
 			psmt.setString(2, map.get("end").toString());
 			
-			ResultSet rs = psmt.executeQuery();
+			rs = psmt.executeQuery();
 			
 			while(rs.next()) {
 				PostVO tmp = new PostVO(
@@ -182,12 +116,13 @@ public class PostDAO {
 		return list;
 	}
 	
+	// 식별번호로 해당 게시글을 찾음
 	public PostVO selectPost(String num) {		
 		try {
 			String query = "SELECT NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, LIKE_COUNT, COMMENT_COUNT, POST_DATE FROM POST WHERE num = '"+ num +"'";
 			
 			System.out.println("SQL : " + query);
-			ResultSet rs = stmt.executeQuery(query);
+			rs = stmt.executeQuery(query);
 			rs.last();
 			
 			if(rs.getRow() == 0) {
@@ -211,38 +146,26 @@ public class PostDAO {
 			String query = "INSERT INTO POST(NUM, CATEGORY, TITLE, CONTENT, WRITER) "
 					+ "VALUES(SEO_POST_NUM.NEXTVAL, ?, ?, ?, ?)";
 			System.out.println("SQL : " + query);
-			PreparedStatement ps = con.prepareStatement(query);	
+			psmt = con.prepareStatement(query);	
 			
 			Clob contentTmp = con.createClob();
 			contentTmp.setString(1, content);
 			
-			ps.setString(1, cartegory);
-			ps.setString(2, title);
-			ps.setClob(3, contentTmp);
-			ps.setString(4, writer);
-			ps.executeUpdate();
+			psmt.setString(1, cartegory);
+			psmt.setString(2, title);
+			psmt.setClob(3, contentTmp);
+			psmt.setString(4, writer);
+			psmt.executeUpdate();
 			
 			contentTmp.free();
-			ps.close();
+			psmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}	
-
-	private void connDB() {
-		try {
-			Class.forName(driver);
-			System.out.println("jdbc driver loading success.");
-			con = DriverManager.getConnection(url, user, password);
-			System.out.println("oracle connection success.");
-			stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			System.out.println("statement create success.");
-			System.out.println();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 	
+	
+	// 더미 게시글 생성
 	private void dummyInsert(int i) throws SQLException {
 		String cartegory = "quest";
 		String title = "더미 게시글 "+i;
