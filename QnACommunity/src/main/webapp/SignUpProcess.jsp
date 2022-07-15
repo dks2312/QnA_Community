@@ -19,7 +19,7 @@
 		MemberVO memberVo = new MemberVO(id, pw, nicName);
 		
 		MemberDAO memberDAO = new MemberDAO();
-		MemberVO isUser = memberDAO.selected(memberVo);
+		MemberVO isUser = memberDAO.selected(id, pw);
 		
 		if(isUser == null){
 			memberDAO.insert(memberVo);

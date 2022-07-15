@@ -1,5 +1,7 @@
 package DB;
 
+
+import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
+
 
 public class PostDAO {
 	private String driver = "oracle.jdbc.driver.OracleDriver";
@@ -185,19 +188,27 @@ public class PostDAO {
 		return null;
 	}
 
+	
+	//CallableStatement를 사용하면 좋을 것 같음.
 	public void insert(String cartegory, String title, String content, String writer) {
-		String query = "INSERT INTO POST(NUM, CATEGORY, TITLE, CONTENT, WRITER) "
-					+ "VALUES(SEO_POST_NUM.NEXTVAL, ?, ?, ?, ?)";
-		System.out.println("SQL : " + query);
-		
 		try {
-			PreparedStatement ps = con.prepareStatement(query);
+			String query = "INSERT INTO POST(NUM, CATEGORY, TITLE, CONTENT, WRITER) "
+					+ "VALUES(SEO_POST_NUM.NEXTVAL, ?, ?, ?, ?)";
+			System.out.println("SQL : " + query);
+			PreparedStatement ps = con.prepareStatement(query);	
+			
+			Clob contentTmp = con.createClob();
+			contentTmp.setString(1, content);
+			
 			ps.setString(1, cartegory);
 			ps.setString(2, title);
-			ps.setString(3, content);
+			ps.setClob(3, contentTmp);
 			ps.setString(4, writer);
-			rs = ps.executeQuery();
-		} catch (Exception e) {
+			ps.executeUpdate();
+			
+			contentTmp.free();
+			ps.close();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}	

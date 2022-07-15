@@ -23,8 +23,10 @@
 		try {
 			Date nowDate = new Date();
 			Date studentDayDate = new SimpleDateFormat("yyyy-MM-dd").parse(strDay);
+			
 			Calendar cal = Calendar.getInstance();
-			cal.set(Calendar.HOUR, 18);
+			cal.setTime(new Date());
+			cal.set(Calendar.HOUR_OF_DAY , 18);
 			cal.set(Calendar.MINUTE, 20);
 			Date studentTimeDate = cal.getTime();
 			

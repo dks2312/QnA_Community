@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	if(session.getAttribute("User") == null){
+		request.setAttribute("PostEditerErrMsg", "로그인을 한 후 이용할 수 있습니다");
+		request.getRequestDispatcher("PostBoard.jsp").forward(request, response);
+		return;
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>

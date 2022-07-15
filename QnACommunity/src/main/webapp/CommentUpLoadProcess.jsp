@@ -4,6 +4,8 @@
 <%@ page import="DB.CommentVO" %>
 <%@ page import="DB.MemberVO" %>
 <% 
+	request.setCharacterEncoding("UTF-8");	// 입력된 값의 인코딩 방식 변경
+
 	if(session.getAttribute("User") == null){
 		request.setAttribute("PostEditerErrMsg", "로그인을 한 후 이용할 수 있습니다");
 		request.getRequestDispatcher("PostBoard.jsp").forward(request, response);
