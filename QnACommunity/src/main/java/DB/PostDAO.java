@@ -1,6 +1,5 @@
 package DB;
 
-
 import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -19,7 +19,6 @@ public class PostDAO {
 
 	private Connection con;
 	private Statement stmt;
-	private ResultSet rs;
 	
 	public PostDAO() {
 		connDB();
@@ -34,6 +33,22 @@ public class PostDAO {
 		}
 	}
 	
+	public void updateVisitCount(String num) {
+		String query = "UPDATE POST "
+					+ "SET VISIT_COUNT = VISIT_COUNT + 1 "
+					+ "WHERE num = ?";
+		System.out.println("SQL : " + query);
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, num);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public int selectCount(Map<String, Object> map) {
 		String query = "SELECT Count(*) FROM POST ";
 		
@@ -44,7 +59,7 @@ public class PostDAO {
 		System.out.println(query);
 		
 		try {
-			rs = stmt.executeQuery(query);
+			ResultSet rs = stmt.executeQuery(query);
 			rs.last();
 			
 			if(rs.getRow() != 0) {
@@ -59,7 +74,7 @@ public class PostDAO {
 		
 		return 0;
 	}
-
+/*
 	public Queue<PostVO> selectList(Map<String, Object> map) {
 		Queue<PostVO> list = new LinkedList<PostVO>();
 		
@@ -106,6 +121,7 @@ public class PostDAO {
 
 		return list;
 	}
+ */
 	
 	public Queue<PostVO> selectListPage(Map<String, Object> map) {
 		Queue<PostVO> list = new LinkedList<PostVO>();
@@ -143,7 +159,7 @@ public class PostDAO {
 			psmt.setString(1, map.get("start").toString());
 			psmt.setString(2, map.get("end").toString());
 			
-			rs = psmt.executeQuery();
+			ResultSet rs = psmt.executeQuery();
 			
 			while(rs.next()) {
 				PostVO tmp = new PostVO(
@@ -171,7 +187,7 @@ public class PostDAO {
 			String query = "SELECT NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, LIKE_COUNT, COMMENT_COUNT, POST_DATE FROM POST WHERE num = '"+ num +"'";
 			
 			System.out.println("SQL : " + query);
-			rs = stmt.executeQuery(query);
+			ResultSet rs = stmt.executeQuery(query);
 			rs.last();
 			
 			if(rs.getRow() == 0) {
@@ -227,46 +243,38 @@ public class PostDAO {
 		}
 	}
 	
-//	private void dummyInsert(String cartegory, String title, String content, String writer, 
-//			int visitCount, int likeCount, int commentCount, String postDate) {
-//		try {
-//			String query = "INSERT INTO POST(NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, LIKE_COUNT, COMMENT_COUNT, POST_DATE) "
-//					+ "VALUES(SEO_POST_NUM.NEXTVAL, '"+ cartegory + "', '"+ title + "', '"+ content + "', '"+ writer + "', "
-//						+ "'"+ visitCount + "', '"+ likeCount + "', '"+ commentCount + "', "
-//						+ "to_date('"+ postDate +"','YYYY/MM/DD HH24:MI'))";
-//			System.out.println("SQL : " + query);
-//				rs = stmt.executeQuery(query);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}	
+	private void dummyInsert(int i) throws SQLException {
+		String cartegory = "quest";
+		String title = "더미 게시글 "+i;
+		String content = "이게 질문인가"+ i;
+		String writer = "dks2312";
+		int visitCount = (int)(Math.random() * 100);
+		int likeCount = (int)(Math.random() * 100);
+		int commentCount = (int)(Math.random() * 10);
+		
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+		cal.add(Calendar.DATE, -(int)(Math.random() * 1000));
+		String postDate = df.format(cal.getTime());
+		
+		
+		String query = "INSERT INTO POST(NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, LIKE_COUNT, COMMENT_COUNT, POST_DATE) "
+				+ "VALUES(SEO_POST_NUM.NEXTVAL, '"+ cartegory + "', '"+ title + "', '"+ content + "', '"+ writer + "', "
+					+ "'"+ visitCount + "', '"+ likeCount + "', '"+ commentCount + "', "
+					+ "to_date('"+ postDate +"','YYYY/MM/DD HH24:MI'))";
+		System.out.println("SQL : " + query);
+		
+		stmt.executeQuery(query);
+	}	
 	
-//	public static void main(String[] args) {
-//		PostDAO dao = new PostDAO();
-//		
-//		for(int i = 1; true; i++) {
-//			
-//			try {
-//				int visitCount = (int)(Math.random() * 100);
-//				int likeCount = (int)(Math.random() * 100);
-//				int commentCount = (int)(Math.random() * 10);
-//				
-//				Calendar cal = Calendar.getInstance();
-//				SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-//				
-//				cal.add(Calendar.DATE, -(int)(Math.random() * 1000));
-//				
-//				String date = df.format(cal.getTime());
-//				
-//				
-//				dao.dummyInsert("quest", "더미 게시글 "+i, "이게 질문인가"+ i, "dks2312", visitCount, likeCount, commentCount, date);
-//			} catch (Exception e) {
-//				System.out.println("더이상 Insert 할 수 없습니다!!\n");
-//				e.printStackTrace();
-//				
-//				break;
-//			}
-//		}
-//	}
+	public static void main(String[] args) {
+		PostDAO dao = new PostDAO();
+		
+		for(int i = 1; true; i++) {
+			try { dao.dummyInsert(i); }
+			catch (Exception e) { break; }
+		}
+		System.out.println("더이상 Insert 할 수 없습니다!!\n");
+	}
 	
 }

@@ -22,7 +22,8 @@
 	if(session.getAttribute("User") != null){
 		userName = ((MemberVO)session.getAttribute("User")).getNickName();
 	}
-
+	
+	postDao.updateVisitCount(num);
 %>
 <!DOCTYPE html>
 <html>

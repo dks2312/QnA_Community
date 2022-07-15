@@ -17,7 +17,6 @@ public class CommentDAO {
 
 	private Connection con;
 	private Statement stmt;
-	private ResultSet rs;
 	
 	public CommentDAO() {
 		connDB();
@@ -27,7 +26,6 @@ public class CommentDAO {
 		try {
 			con.close();
 			stmt.close();
-			rs.close();
 		} catch (SQLException e) {
 			System.out.println("DB 연결 해제중 에러\n");
 			e.printStackTrace();
@@ -46,7 +44,7 @@ public class CommentDAO {
 		System.out.println("SQL : " + query);
 		
 		try {
-			rs = stmt.executeQuery(query);
+			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				CommentVO commentVO = new CommentVO(post, rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4));
 				commentQ.offer(commentVO);

@@ -14,7 +14,6 @@ public class MemberDAO {
 
 	private Connection con;
 	private Statement stmt;
-	private ResultSet rs;
 	
 	public MemberDAO() {
 		connDB();
@@ -24,7 +23,6 @@ public class MemberDAO {
 		try {
 			con.close();
 			stmt.close();
-			rs.close();
 		} catch (SQLException e) {
 			System.out.println("메모리 해제중 에러\n");
 			e.printStackTrace();
@@ -37,7 +35,7 @@ public class MemberDAO {
 		try {
 			String query = "SELECT id, password, nick_name FROM member WHERE id='"+ id +"' AND password='"+ password +"'";
 			System.out.println("SQL : " + query);
-			rs = stmt.executeQuery(query);
+			ResultSet rs = stmt.executeQuery(query);
 			rs.last();
 			System.out.println("rs.getRow() : " + rs.getRow());
 			
@@ -59,7 +57,7 @@ public class MemberDAO {
 		try {
 			String query = "INSERT INTO member VALUES('"+ user.getId() +"', '"+ user.getPassword() +"', '"+ user.getNickName() + "')";
 			System.out.println("SQL : " + query);
-			rs = stmt.executeQuery(query);
+			stmt.executeQuery(query);
 		} catch (Exception e) {
 //			System.out.println("Error : "+ e.getMessage());
 			e.printStackTrace();
