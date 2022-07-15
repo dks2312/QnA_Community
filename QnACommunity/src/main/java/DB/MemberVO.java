@@ -6,11 +6,6 @@ public class MemberVO {
 	private String nickName = "익명의 사용자";
 	
 	
-	public MemberVO(String id, String password) {
-		this.id = id;
-		this.password = password;
-	}
-
 	public MemberVO(String id, String password, String nickName) {
 		this.id = id;
 		this.password = password;

@@ -13,12 +13,7 @@ public class PostVO {
 	
 	private String postDate;	// 날짜 데이터
 	
-	public PostVO(String cartegory, String title, String content, String writer) {
-		this.cartegory = cartegory;
-		this.title = title;
-		this.content = content;
-		this.writer = writer;
-	}
+
 	public PostVO(long num, String cartegory, String title, String content, String writer, 
 			int visitCount, int likeCount, int commentCount, String postDate) {
 		this.num = num;
