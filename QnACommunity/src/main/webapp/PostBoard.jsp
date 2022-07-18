@@ -37,8 +37,6 @@
 	
 	
 	Queue<PostVO> postList = postDAO.selectListPage(param);
-	
-	postDAO.close();
 %>
 <!DOCTYPE html>
 <html>
@@ -112,10 +110,14 @@
 			} else{
 				int virtualNumber = 0;
 				int countNum = 0;
+				int likeCount = 0;
+				int commentCount = 0;
 				
 				for(PostVO post : postList){
-					post.print();
 					virtualNumber = totalCount - (((pageNum - 1) * pageSize) + countNum++);
+					
+					likeCount = postDAO.likeCount(post.getNum());
+					commentCount = postDAO.commentCount(post.getNum());
 			%>
 					<div class="post">
 						<div class="post_category"><%= post.getCartegory() %></div>
@@ -123,12 +125,14 @@
 							<a href="./Post.jsp?num=<%= post.getNum() %>"><%= post.getTitle() %></a>
 						</div>
 						<div class="post_view">조회수 : <%= post.getVisitCount() %></div>
-						<div class="post_comment_count">댓글 : <%= post.getCommentCount() %></div>
-						<div class="post_like_count">좋아요 : <%= post.getLikeCount() %></div>
+						<div class="post_comment_count">댓글 : <%= commentCount %></div>
+						<div class="post_like_count">좋아요 : <%= likeCount %></div>
 						<div class="post_date_created"><%= post.getPostDate() %></div>
 					</div>
 			<%
 				}
+				
+				postDAO.close();
 			%>
 				</div>
 				<div class="post_board_number">

@@ -12,8 +12,8 @@ public class CommentDAO extends myDAO{
 	public Queue<CommentVO> commentList(long post) {
 		Queue<CommentVO> commentQ = new LinkedList<CommentVO>();
 		
-		String query = "SELECT m.NICK_NAME, c.CONTENT, c.LIKE_COUNT, c.COMMENT_DATE "
-					+ "FROM COMMENTTABLE c, POST p, MEMBER m "
+		String query = "SELECT m.NICK_NAME, c.CONTENT, c.COMMENT_DATE "
+					+ "FROM COMMENT_TB c, POST p, MEMBER m "
 					+ "WHERE c.POST_NUM = p.NUM AND c.WRITER_ID = m.ID "
 					+ "AND POST_NUM = "+ post +" ";
 		System.out.println("SQL : " + query);
@@ -21,7 +21,7 @@ public class CommentDAO extends myDAO{
 		try {
 			rs = stmt.executeQuery(query);
 			while(rs.next()) {
-				CommentVO commentVO = new CommentVO(post, rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4));
+				CommentVO commentVO = new CommentVO(post, rs.getString(1), rs.getString(2), rs.getString(3));
 				commentQ.offer(commentVO);
 			}
 		} catch (Exception e) {
@@ -32,7 +32,7 @@ public class CommentDAO extends myDAO{
 	}
 
 	public void insert(long post, String user, String content) {
-		String query = "INSERT INTO COMMENTTABLE(POST_NUM,	WRITER_ID, CONTENT) VALUES(?, ?, ?)";
+		String query = "INSERT INTO COMMENT_TB(NUM, POST_NUM, WRITER_ID, CONTENT) VALUES(SEO_COMMENT_NUM.NEXTVAL, ?, ?, ?)";
 		System.out.println("SQL : " + query);
 		
 		try {
@@ -44,5 +44,10 @@ public class CommentDAO extends myDAO{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	// 댓글의 좋아요 개수를 구함
+	public int likeCount(long postNum) {
+		return count("LIKE_COMMENT_TB", "LIKE_NUM", postNum);
 	}
 }

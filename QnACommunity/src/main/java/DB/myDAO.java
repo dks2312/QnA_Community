@@ -18,7 +18,7 @@ public class myDAO {
 	protected PreparedStatement psmt;
 	protected ResultSet rs;
 	
-	// 커넥션 풀을 이용한 DB연결
+	// 커넥션 풀을 이용한 DB연결 (성공함)
 //	public myDAO() {
 //		try {
 //			// JNDI 서비스를 이용하기 위한 시작점
@@ -86,5 +86,25 @@ public class myDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	// 특정 테이블의 특정 조건의 개수를 구함
+	public int count(String table, String colunm, long value) {
+		String query = "SELECT Count(*) FROM "+ table +" WHERE "+ colunm +" = "+ value;
+		
+		System.out.println(query);
+		
+		try {
+			rs = stmt.executeQuery(query);
+			rs.last();
+			
+			if(rs.getRow() != 0) {
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
 	}
 }

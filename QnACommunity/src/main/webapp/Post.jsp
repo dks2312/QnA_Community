@@ -12,10 +12,12 @@
 	String num = request.getParameter("num");
 	long numL = Long.parseLong(num);
 	
-	// 조회수 증가, 게시글 내용 불러오기
+	// 조회수 증가, 게시글 정보 불러오기
 	PostDAO postDao = new PostDAO(application);
-	postDao.updateVisitCount(num);	
-	PostVO post = postDao.selectPost(num);	
+	postDao.updateVisitCount(numL);	
+	PostVO post = postDao.selectPost(numL);	
+	int likeCount = postDao.likeCount(numL);
+	int commentCount = postDao.commentCount(numL);
 	postDao.close();
 	
 	// 게시글 댓글 불러오기
@@ -49,12 +51,10 @@
 		<div class="post">
 			<div class="post_title"><%= post.getTitle() %></div>
 			<hr>
-			<div class="post_body">
-				<%= post.getContent() %>
-			</div>
+			<div class="post_body"><%= post.contentStr() %></div>
 			<hr>
-			<button>하트 : <%= post.getLikeCount() %></button>
-			<button>댓글 수 : <%= post.getCommentCount() %></button>
+			<button>하트 : <%= likeCount %></button>
+			<button>댓글 수 : <%= commentCount %></button>
 		</div>
 		<%
 		while(!commentQ.isEmpty()){

@@ -2,7 +2,6 @@ package DB;
 
 import java.sql.Clob;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.servlet.ServletContext;
@@ -11,18 +10,30 @@ import javax.servlet.ServletContext;
 public class PostDAO extends myDAO{
 	public PostDAO(){ super(); }
 	public PostDAO(ServletContext application){ super(application); }
-	
-	// 식별번호에 해당하는 게시글에 조회수를 하나 올려줌
-	public void updateVisitCount(String num) {
-		String query = "UPDATE POST "
-					+ "SET VISIT_COUNT = VISIT_COUNT + 1 "
-					+ "WHERE num = ?";
+
+	public void addLike(int postNum, String userId) {
+		String query = "INSERT INTO LIKE_POST_TB(POST_NUM, WRITER_ID) VALUES(?, ?)";
 		System.out.println("SQL : " + query);
 		
 		try {
 			psmt = con.prepareStatement(query);
-			psmt.setString(1, num);
+			psmt.setInt(1, postNum);
+			psmt.setString(2, userId);
 			psmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// 식별번호에 해당하는 게시글에 조회수를 하나 올려줌
+	public void updateVisitCount(long num) {
+		String query = "UPDATE POST "
+					+ "SET VISIT_COUNT = VISIT_COUNT + 1 "
+					+ "WHERE num = "+ num;
+		System.out.println("SQL : " + query);
+		
+		try {
+			stmt.executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -60,7 +71,7 @@ public class PostDAO extends myDAO{
 	public Queue<PostVO> selectListPage(Map<String, Object> map) {
 		Queue<PostVO> list = new LinkedList<PostVO>();
 		
-		String query = "SELECT NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, LIKE_COUNT, COMMENT_COUNT, POST_DATE FROM ( "
+		String query = "SELECT NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, POST_DATE FROM ( "
 						+"	SELECT Tb.*, ROWNUM rNum FROM ( "
 						+"		SELECT * FROM POST ";
 		
@@ -97,15 +108,13 @@ public class PostDAO extends myDAO{
 			
 			while(rs.next()) {
 				PostVO tmp = new PostVO(
-						rs.getInt(1),
+						rs.getLong(1),
 						rs.getString(2),
 						rs.getString(3),
-						rs.getString(4),
+						rs.getClob(4),
 						rs.getString(5),
 						rs.getInt(6),
-						rs.getInt(7),
-						rs.getInt(8),
-						rs.getString(9));
+						rs.getString(7));
 				list.offer(tmp);
 			}
 		} catch (Exception e) {
@@ -117,19 +126,26 @@ public class PostDAO extends myDAO{
 	}
 	
 	// 식별번호로 해당 게시글을 찾음
-	public PostVO selectPost(String num) {		
+	public PostVO selectPost(long num) {	
+		String query = "SELECT CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, POST_DATE FROM POST WHERE NUM = "+ num;
+		System.out.println("SQL : " + query);
+		
 		try {
-			String query = "SELECT NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, LIKE_COUNT, COMMENT_COUNT, POST_DATE FROM POST WHERE num = '"+ num +"'";
-			
-			System.out.println("SQL : " + query);
 			rs = stmt.executeQuery(query);
 			rs.last();
 			
 			if(rs.getRow() == 0) {
 				System.out.println("0 row selected...");
 			}else {
-				PostVO post = new PostVO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), 
-						rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9));
+				PostVO post = new PostVO(
+						num,
+						rs.getString(1), 
+						rs.getString(2), 
+						rs.getClob(3), 
+						rs.getString(4),
+						rs.getInt(5), 
+						rs.getString(6));
+				
 				return post;
 			}
 		} catch (Exception e) {
@@ -137,6 +153,15 @@ public class PostDAO extends myDAO{
 		}
 
 		return null;
+	}
+	
+	// 검색된 게시글의 총 개수를 구함
+	public int commentCount(long postNum) {
+		return count("COMMENT_TB", "POST_NUM", postNum);
+	}
+	// 검색된 게시글의 총 개수를 구함
+	public int likeCount(long postNum) {
+		return count("LIKE_POST_TB", "LIKE_NUM", postNum);
 	}
 
 	
@@ -165,39 +190,38 @@ public class PostDAO extends myDAO{
 	}	
 	
 	
-	// 더미 게시글 생성
-	private void dummyInsert(int i) throws SQLException {
-		String cartegory = "quest";
-		String title = "더미 게시글 "+i;
-		String content = "이게 질문인가"+ i;
-		String writer = "dks2312";
-		int visitCount = (int)(Math.random() * 100);
-		int likeCount = (int)(Math.random() * 100);
-		int commentCount = (int)(Math.random() * 10);
-		
-		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-		cal.add(Calendar.DATE, -(int)(Math.random() * 1000));
-		String postDate = df.format(cal.getTime());
-		
-		
-		String query = "INSERT INTO POST(NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, LIKE_COUNT, COMMENT_COUNT, POST_DATE) "
-				+ "VALUES(SEO_POST_NUM.NEXTVAL, '"+ cartegory + "', '"+ title + "', '"+ content + "', '"+ writer + "', "
-					+ "'"+ visitCount + "', '"+ likeCount + "', '"+ commentCount + "', "
-					+ "to_date('"+ postDate +"','YYYY/MM/DD HH24:MI'))";
-		System.out.println("SQL : " + query);
-		
-		stmt.executeQuery(query);
-	}	
+//	// 더미 게시글 생성
+//	private void dummyInsert(int i) throws SQLException {
+//		String cartegory = "quest";
+//		String title = "더미 게시글 "+i;
+//		String content = "이게 질문인가"+ i;
+//		String writer = "dks2312";
+//		int visitCount = (int)(Math.random() * 100);
+//		int likeCount = (int)(Math.random() * 100);
+//		int commentCount = (int)(Math.random() * 10);
+//		
+//		Calendar cal = Calendar.getInstance();
+//		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+//		cal.add(Calendar.DATE, -(int)(Math.random() * 1000));
+//		String postDate = df.format(cal.getTime());
+//		
+//		
+//		String query = "INSERT INTO POST(NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, LIKE_COUNT, COMMENT_COUNT, POST_DATE) "
+//				+ "VALUES(SEO_POST_NUM.NEXTVAL, '"+ cartegory + "', '"+ title + "', '"+ content + "', '"+ writer + "', "
+//					+ "'"+ visitCount + "', '"+ likeCount + "', '"+ commentCount + "', "
+//					+ "to_date('"+ postDate +"','YYYY/MM/DD HH24:MI'))";
+//		System.out.println("SQL : " + query);
+//		
+//		stmt.executeQuery(query);
+//	}	
 	
-	public static void main(String[] args) {
-		PostDAO dao = new PostDAO();
-		
-		for(int i = 1; true; i++) {
-			try { dao.dummyInsert(i); }
-			catch (Exception e) { break; }
-		}
-		System.out.println("더이상 Insert 할 수 없습니다!!\n");
-	}
-	
+//	public static void main(String[] args) {
+//		PostDAO dao = new PostDAO();
+//		
+//		for(int i = 1; true; i++) {
+//			try { dao.dummyInsert(i); }
+//			catch (Exception e) { break; }
+//		}
+//		System.out.println("더이상 Insert 할 수 없습니다!!\n");
+//	}
 }
