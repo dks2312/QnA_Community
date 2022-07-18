@@ -1,6 +1,5 @@
 package DB;
 
-import java.io.Reader;
 import java.sql.Clob;
 
 public class PostVO {
@@ -41,23 +40,4 @@ public class PostVO {
 	public String getWriter() 		{ return writer; }
 	public int getVisitCount() 		{ return visitCount; }
 	public String getPostDate() 	{ return postDate; }
-	
-	
-	public String contentStr() {
-		String str = "";
-		try {
-	      StringBuffer output = new StringBuffer();
-	      Reader input = this.content.getCharacterStream();
-	      char[] buffer = new char[1024];
-	      int byteRead;
-	      while((byteRead=input.read(buffer,0,1024))!=-1){
-	          output.append(buffer,0,byteRead);
-	      }
-		
-	      str = output.toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return str;
-	}
 }

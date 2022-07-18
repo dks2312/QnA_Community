@@ -1,5 +1,6 @@
 package DB;
 
+import java.io.Reader;
 import java.sql.Clob;
 import java.sql.SQLException;
 import java.util.*;
@@ -11,18 +12,31 @@ public class PostDAO extends myDAO{
 	public PostDAO(){ super(); }
 	public PostDAO(ServletContext application){ super(application); }
 
-	public void addLike(int postNum, String userId) {
-		String query = "INSERT INTO LIKE_POST_TB(POST_NUM, WRITER_ID) VALUES(?, ?)";
+	public boolean addLike(long postNum, String userId) {
+		String query = "INSERT INTO LIKE_POST_TB(LIKE_NUM, LIKE_USER) VALUES(?, ?)";
 		System.out.println("SQL : " + query);
 		
 		try {
 			psmt = con.prepareStatement(query);
-			psmt.setInt(1, postNum);
+			psmt.setLong(1, postNum);
 			psmt.setString(2, userId);
 			psmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+			return true;
+		} catch (SQLException e) { e.printStackTrace(); }
+		
+		return false;
+	}
+	public void removeLike(long postNum, String userId) {
+		String query = "DELETE FROM LIKE_POST_TB WHERE LIKE_NUM = ? AND LIKE_USER = ?";
+		System.out.println("SQL : " + query);
+		
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setLong(1, postNum);
+			psmt.setString(2, userId);
+			psmt.executeUpdate();
+		} catch (SQLException e) { e.printStackTrace(); }
+		
 	}
 	
 	// 식별번호에 해당하는 게시글에 조회수를 하나 올려줌
@@ -156,12 +170,12 @@ public class PostDAO extends myDAO{
 	}
 	
 	// 검색된 게시글의 총 개수를 구함
-	public int commentCount(long postNum) {
-		return count("COMMENT_TB", "POST_NUM", postNum);
+	public int getCommentCount(long postNum) {
+		return getCount("COMMENT_TB", "POST_NUM", postNum);
 	}
 	// 검색된 게시글의 총 개수를 구함
-	public int likeCount(long postNum) {
-		return count("LIKE_POST_TB", "LIKE_NUM", postNum);
+	public int getLikeCount(long postNum) {
+		return getCount("LIKE_POST_TB", "LIKE_NUM", postNum);
 	}
 
 	
@@ -189,6 +203,23 @@ public class PostDAO extends myDAO{
 		}
 	}	
 	
+	public String contentStr(Clob content) {
+		String str = "";
+		try {
+	      StringBuffer output = new StringBuffer();
+	      Reader input = content.getCharacterStream();
+	      char[] buffer = new char[1024];
+	      int byteRead;
+	      while((byteRead=input.read(buffer,0,1024))!=-1){
+	          output.append(buffer,0,byteRead);
+	      }
+		
+	      str = output.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return str;
+	}
 	
 //	// 더미 게시글 생성
 //	private void dummyInsert(int i) throws SQLException {

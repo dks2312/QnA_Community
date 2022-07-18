@@ -22,7 +22,7 @@
 	commentDAO.insert(num, user.getId(), content);	// 댓글을 DB에 저장
 	commentDAO.close();
 	
-	request.getRequestDispatcher("Post.jsp?num="+ num).forward(request, response);
+	response.sendRedirect("Post.jsp?num="+ num);
 %>
 <!DOCTYPE html>
 <html>

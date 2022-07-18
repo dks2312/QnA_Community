@@ -116,8 +116,8 @@
 				for(PostVO post : postList){
 					virtualNumber = totalCount - (((pageNum - 1) * pageSize) + countNum++);
 					
-					likeCount = postDAO.likeCount(post.getNum());
-					commentCount = postDAO.commentCount(post.getNum());
+					likeCount = postDAO.getLikeCount(post.getNum());
+					commentCount = postDAO.getCommentCount(post.getNum());
 			%>
 					<div class="post">
 						<div class="post_category"><%= post.getCartegory() %></div>

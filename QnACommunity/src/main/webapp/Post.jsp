@@ -9,25 +9,30 @@
 <%@ page import="java.util.Date"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%
-	String num = request.getParameter("num");
+	String num = (String)((request.getAttribute("num")==null)?request.getParameter("num"):request.getAttribute("num"));
 	long numL = Long.parseLong(num);
 	
 	// 조회수 증가, 게시글 정보 불러오기
 	PostDAO postDao = new PostDAO(application);
 	postDao.updateVisitCount(numL);	
 	PostVO post = postDao.selectPost(numL);	
-	int likeCount = postDao.likeCount(numL);
-	int commentCount = postDao.commentCount(numL);
+	int likeCount = postDao.getLikeCount(numL);
+	int commentCount = postDao.getCommentCount(numL);
+	String content = postDao.contentStr(post.getContent());
 	postDao.close();
 	
 	// 게시글 댓글 불러오기
 	CommentDAO comDao = new CommentDAO(application);
 	Queue<CommentVO> commentQ = comDao.commentList(numL);
+	int commentLikeCount = comDao.getLikeCount(numL);
 	comDao.close();
 	
 	String userName = "익명의사용자";
+	String userId = null;
 	if(session.getAttribute("User") != null){
-		userName = ((MemberVO)session.getAttribute("User")).getNickName();
+		MemberVO user = (MemberVO)session.getAttribute("User");
+		userId = user.getId();
+		userName = user.getNickName();
 	}
 %>
 <!DOCTYPE html>
@@ -40,6 +45,12 @@
 <title>질문 있습니다!!!</title>
 </head>
 <body>
+	<% if(request.getAttribute("likeErrMsg") != null){%>
+	  <script>
+	    alert("<%= request.getAttribute("likeErrMsg") %>");
+	  </script>
+	<%}%>
+	
 	<div id="wrap">
 		<div class="header">
 			<div class="back_btn">
@@ -51,9 +62,11 @@
 		<div class="post">
 			<div class="post_title"><%= post.getTitle() %></div>
 			<hr>
-			<div class="post_body"><%= post.contentStr() %></div>
+			<div class="post_body"><%= content %></div>
 			<hr>
-			<button>하트 : <%= likeCount %></button>
+			<a href="LikeProcess.jsp?likeTB=POST&likeNum=<%= numL %>&backPostNum=<%= numL %>">
+				하트 : <%= likeCount %>
+			</a>
 			<button>댓글 수 : <%= commentCount %></button>
 		</div>
 		<%
@@ -64,7 +77,10 @@
 				<div class="comment_info">
 					<div class="user_name"><%= com.getWriterName() %></div>
 					<div class="date"><%= com.getDate() %></div>
-					<button class="love">하트 : <%= com.getListCount() %></button>
+					
+					<a class="love" href="LikeProcess.jsp?likeTB=COMMENT&likeNum=<%= com.getNum() %>&backPostNum=<%= numL %>">
+						하트 : <%= commentLikeCount %>
+					</a>
 				</div>
 				<hr>
 				<div class="comment_body"><%= com.getContent() %></div>
@@ -80,7 +96,7 @@
 				<button class="add" form="new_comment_form">작성</button>
 			</div>
 			<hr>
-			<form method="post" onsubmit="return validateForm(this)" id="new_comment_form" action="CommentUpLoadProcess.jsp?num=<%= num %>">
+			<form method="post" onsubmit="return validateForm(this)" id="new_comment_form" action="CommentUpLoadProcess.jsp?num=<%= numL %>">
 				<textarea name="comment_text" class="comment_textFiled" ></textarea>
 			</form>
 			

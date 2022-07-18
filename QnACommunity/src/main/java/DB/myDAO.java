@@ -89,7 +89,7 @@ public class myDAO {
 	}
 	
 	// 특정 테이블의 특정 조건의 개수를 구함
-	public int count(String table, String colunm, long value) {
+	public int getCount(String table, String colunm, long value) {
 		String query = "SELECT Count(*) FROM "+ table +" WHERE "+ colunm +" = "+ value;
 		
 		System.out.println(query);
