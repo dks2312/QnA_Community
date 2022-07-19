@@ -5,7 +5,7 @@
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.text.ParseException"%>
 <%@ page import="DB.MemberVO"%>
-<%@ page import="DB.myDAO"%>
+<%@ page import="DB.BasicDAO"%>
 <!DOCTYPE html>
 <html>
 <head>

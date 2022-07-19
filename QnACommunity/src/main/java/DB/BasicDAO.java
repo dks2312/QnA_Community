@@ -12,7 +12,7 @@ import javax.servlet.ServletContext;
 //import javax.naming.InitialContext;
 //import javax.sql.DataSource;
 
-public class myDAO {
+public class BasicDAO {
 	protected Connection con;
 	protected Statement stmt;
 	protected PreparedStatement psmt;
@@ -42,7 +42,7 @@ public class myDAO {
 //		}
 //	}
 	
-	public myDAO() {
+	public BasicDAO() {
 		try {
 			String driver = "oracle.jdbc.driver.OracleDriver";
 			String url = "jdbc:oracle:thin:@localhost:1521:xe";
@@ -58,7 +58,7 @@ public class myDAO {
 			e.printStackTrace();
 		}
 	}
-	public myDAO(ServletContext application) {
+	public BasicDAO(ServletContext application) {
 		try {
 			String driver = application.getInitParameter("OracleDrivaer");
 			String url = application.getInitParameter("OracleURL");

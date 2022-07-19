@@ -21,14 +21,12 @@
 	switch(likeTable){
 	case "POST":
 		PostDAO postDAO = new PostDAO(application);
-		isLike = postDAO.addLike(num, user.getId());
-		if(!isLike) postDAO.removeLike(num, user.getId());
+		postDAO.likeAction(num, user.getId());
 		postDAO.close();
 		break;
 	case "COMMENT":
 		CommentDAO comDAO = new CommentDAO(application);
-		isLike = comDAO.addLike(num, user.getId());
-		if(!isLike) comDAO.removeLike(num, user.getId());
+		comDAO.likeAction(num, user.getId());
 		comDAO.close();
 		break;
 	}

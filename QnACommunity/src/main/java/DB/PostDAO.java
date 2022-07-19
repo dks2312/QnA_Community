@@ -4,40 +4,12 @@ import java.io.Reader;
 import java.sql.Clob;
 import java.sql.SQLException;
 import java.util.*;
-
 import javax.servlet.ServletContext;
 
 
-public class PostDAO extends myDAO{
+public class PostDAO extends BasicDAO implements Like{
 	public PostDAO(){ super(); }
 	public PostDAO(ServletContext application){ super(application); }
-
-	public boolean addLike(long postNum, String userId) {
-		String query = "INSERT INTO LIKE_POST_TB(LIKE_NUM, LIKE_USER) VALUES(?, ?)";
-		System.out.println("SQL : " + query);
-		
-		try {
-			psmt = con.prepareStatement(query);
-			psmt.setLong(1, postNum);
-			psmt.setString(2, userId);
-			psmt.executeUpdate();
-			return true;
-		} catch (SQLException e) { e.printStackTrace(); }
-		
-		return false;
-	}
-	public void removeLike(long postNum, String userId) {
-		String query = "DELETE FROM LIKE_POST_TB WHERE LIKE_NUM = ? AND LIKE_USER = ?";
-		System.out.println("SQL : " + query);
-		
-		try {
-			psmt = con.prepareStatement(query);
-			psmt.setLong(1, postNum);
-			psmt.setString(2, userId);
-			psmt.executeUpdate();
-		} catch (SQLException e) { e.printStackTrace(); }
-		
-	}
 	
 	// 식별번호에 해당하는 게시글에 조회수를 하나 올려줌
 	public void updateVisitCount(long num) {
@@ -220,7 +192,19 @@ public class PostDAO extends myDAO{
 		}
 		return str;
 	}
-	
+
+	@Override
+	public void likeAction(long postNum, String userId) {
+		likeAction(con, psmt, "LIKE_POST_TB", postNum, userId);
+	}
+}
+
+
+
+
+
+
+
 //	// 더미 게시글 생성
 //	private void dummyInsert(int i) throws SQLException {
 //		String cartegory = "quest";
@@ -255,4 +239,3 @@ public class PostDAO extends myDAO{
 //		}
 //		System.out.println("더이상 Insert 할 수 없습니다!!\n");
 //	}
-}

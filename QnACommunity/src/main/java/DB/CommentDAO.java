@@ -1,12 +1,11 @@
 package DB;
 
-import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import javax.servlet.ServletContext;
 
-public class CommentDAO extends myDAO{
+public class CommentDAO extends BasicDAO implements Like{
 	public CommentDAO(){ super(); }
 	public CommentDAO(ServletContext application){ super(application); }
 	
@@ -47,34 +46,9 @@ public class CommentDAO extends myDAO{
 		}
 	}
 	
-	public boolean addLike(long postNum, String userId) {
-		String query = "INSERT INTO LIKE_COMMENT_TB(POST_NUM, WRITER_ID) VALUES(?, ?)";
-		System.out.println("SQL : " + query);
-		
-		try {
-			psmt = con.prepareStatement(query);
-			psmt.setLong(1, postNum);
-			psmt.setString(2, userId);
-			psmt.executeUpdate();
-			return true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return false;
-	}
-	
-	public void removeLike(long postNum, String userId) {
-		String query = "DELETE FROM LIKE_COMMENT_TB WHERE LIKE_NUM = ? AND LIKE_USER = ?";
-		System.out.println("SQL : " + query);
-		
-		try {
-			psmt = con.prepareStatement(query);
-			psmt.setLong(1, postNum);
-			psmt.setString(2, userId);
-			psmt.executeUpdate();
-		} catch (SQLException e) { e.printStackTrace(); }
-		
+	@Override
+	public void likeAction(long postNum, String userId) {
+		likeAction(con, psmt, "LIKE_COMMENT_TB", postNum, userId);
 	}
 	
 	// 댓글의 좋아요 개수를 구함

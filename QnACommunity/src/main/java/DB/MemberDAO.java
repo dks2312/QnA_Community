@@ -2,7 +2,7 @@ package DB;
 
 import javax.servlet.ServletContext;
 
-public class MemberDAO extends myDAO{
+public class MemberDAO extends BasicDAO{
 	public MemberDAO(){ super(); }
 	public MemberDAO(ServletContext application){ super(application); }
 	
