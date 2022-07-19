@@ -24,8 +24,6 @@
 	// 게시글 댓글 불러오기
 	CommentDAO comDao = new CommentDAO(application);
 	Queue<CommentVO> commentQ = comDao.commentList(numL);
-	int commentLikeCount = comDao.getLikeCount(numL);
-	comDao.close();
 	
 	String userName = "익명의사용자";
 	String userId = null;
@@ -60,7 +58,7 @@
 		</div>
 
 		<div class="post">
-			<div class="post_title"><%= post.getTitle() %></div>
+			<div class="post_title">제목 : <%= post.getTitle() %></div>
 			<hr>
 			<div class="post_body"><%= content %></div>
 			<hr>
@@ -72,6 +70,7 @@
 		<%
 		while(!commentQ.isEmpty()){
 			CommentVO com = commentQ.poll();
+			
 		%>
 			<div class="comment">
 				<div class="comment_info">
@@ -79,7 +78,7 @@
 					<div class="date"><%= com.getDate() %></div>
 					
 					<a class="love" href="LikeProcess.jsp?likeTB=COMMENT&likeNum=<%= com.getNum() %>&backPostNum=<%= numL %>">
-						하트 : <%= commentLikeCount %>
+						하트 : <%= comDao.getLikeCount(com.getNum()) %>
 					</a>
 				</div>
 				<hr>
@@ -87,6 +86,7 @@
 			</div>
 		<%	
 		}
+		comDao.close();
 		%>
 		<div class="comment_add">
 			

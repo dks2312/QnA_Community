@@ -30,8 +30,8 @@ public class PostDAO extends BasicDAO implements Like{
 	public int selectCount(Map<String, Object> map) {
 		String query = "SELECT Count(*) FROM POST ";
 		
-		if(map.get("searchTitle") != null) {
-			query += "WHERE title LIKE '%"+ map.get("searchTitle") +"%' ";
+		if(map.get("search") != null) {
+			query += "WHERE title LIKE '%"+ map.get("search") +"%' ";
 		} 
 		
 		System.out.println(query);
@@ -41,7 +41,7 @@ public class PostDAO extends BasicDAO implements Like{
 			rs.last();
 			
 			if(rs.getRow() != 0) {
-				System.out.println("\""+ map.get("searchTitle") +"\"검색 결과 개수 : "+ rs.getInt(1));
+				System.out.println("\""+ map.get("search") +"\"검색 결과 개수 : "+ rs.getInt(1));
 				return rs.getInt(1);
 			}
 			
@@ -63,8 +63,8 @@ public class PostDAO extends BasicDAO implements Like{
 		
 		boolean flag = false;
 		// 검색
-		if(map.get("searchTitle") != null) {
-			query += "WHERE title LIKE '%"+ map.get("searchTitle") +"%' ";
+		if(map.get("search") != null) {
+			query += "WHERE title LIKE '%"+ map.get("search") +"%' ";
 			flag = true;
 		} 
 		

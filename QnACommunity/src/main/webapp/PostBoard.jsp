@@ -8,11 +8,11 @@
 	PostDAO postDAO = new PostDAO(application);
 
 	Map<String, Object> param = new HashMap<String, Object>();
-	String searchTitle = request.getParameter("searchTitle");
+	String search = request.getParameter("search");
 	String searchSort = request.getParameter("searchSort");
 	String searchCategory = request.getParameter("searchCategory");
 	
-	if(searchTitle != null) param.put("searchTitle", searchTitle);
+	if(search != null) param.put("search", search);
 	if(searchSort != null) param.put("searchSort", searchSort);
 	if(searchCategory != null) param.put("searchCategory", searchCategory);
 	
@@ -60,7 +60,7 @@
 					<a href="./Index.jsp">뒤로가기</a>
 				</div>
 				<div class="search_pane">
-					<input class="search" type="text" name="searchTitle">
+					<input class="search" type="text" name="search" value="<%= request.getParameter("search") %>">
 				</div>
 				<button>검색</button>
 			</header>
