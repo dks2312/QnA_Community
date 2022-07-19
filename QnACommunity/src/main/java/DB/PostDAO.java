@@ -197,6 +197,43 @@ public class PostDAO extends BasicDAO implements Like{
 	public void likeAction(long postNum, String userId) {
 		likeAction(con, psmt, "LIKE_POST_TB", postNum, userId);
 	}
+	
+	// 더미 게시글 생성
+	private void dummyInsert(int i) throws SQLException {
+		String[] cartegorys = new String[] {"질문", "에러", "자유"};
+		String title = "더미 게시글 "+i;
+		String content = "이게 질문인가"+ i;
+		String writer = "dks2312";
+		
+		int cartegoryRandom = (int)(Math.random() * cartegorys.length);
+		int visitCount = (int)(Math.random() * 10000);
+		int likeCount = (int)(Math.random() * 10000);
+		int commentCount = (int)(Math.random() * 1000);
+		
+		Calendar cal = Calendar.getInstance();
+		java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm");
+		cal.add(Calendar.DATE, -(int)(Math.random() * 1000));
+		String postDate = df.format(cal.getTime());
+		
+		
+		String query = "INSERT INTO POST(NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, LIKE_COUNT, COMMENT_COUNT, POST_DATE) "
+				+ "VALUES(SEO_POST_NUM.NEXTVAL, '"+ cartegorys[cartegoryRandom] + "', '"+ title + "', '"+ content + "', '"+ writer + "', "
+					+ "'"+ visitCount + "', '"+ likeCount + "', '"+ commentCount + "', "
+					+ "to_date('"+ postDate +"','YYYY/MM/DD HH24:MI'))";
+		System.out.println("SQL : " + query);
+		
+		stmt.executeQuery(query);
+	}	
+
+	public static void main(String[] args) {
+		PostDAO dao = new PostDAO();
+		
+		for(int i = 1; i <= 1000; i++) {
+			try { dao.dummyInsert(i); }
+			catch (Exception e) { break; }
+		}
+		System.out.println("더이상 Insert 할 수 없습니다!!\n");
+	}
 }
 
 
@@ -205,37 +242,3 @@ public class PostDAO extends BasicDAO implements Like{
 
 
 
-//	// 더미 게시글 생성
-//	private void dummyInsert(int i) throws SQLException {
-//		String cartegory = "quest";
-//		String title = "더미 게시글 "+i;
-//		String content = "이게 질문인가"+ i;
-//		String writer = "dks2312";
-//		int visitCount = (int)(Math.random() * 100);
-//		int likeCount = (int)(Math.random() * 100);
-//		int commentCount = (int)(Math.random() * 10);
-//		
-//		Calendar cal = Calendar.getInstance();
-//		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-//		cal.add(Calendar.DATE, -(int)(Math.random() * 1000));
-//		String postDate = df.format(cal.getTime());
-//		
-//		
-//		String query = "INSERT INTO POST(NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, LIKE_COUNT, COMMENT_COUNT, POST_DATE) "
-//				+ "VALUES(SEO_POST_NUM.NEXTVAL, '"+ cartegory + "', '"+ title + "', '"+ content + "', '"+ writer + "', "
-//					+ "'"+ visitCount + "', '"+ likeCount + "', '"+ commentCount + "', "
-//					+ "to_date('"+ postDate +"','YYYY/MM/DD HH24:MI'))";
-//		System.out.println("SQL : " + query);
-//		
-//		stmt.executeQuery(query);
-//	}	
-	
-//	public static void main(String[] args) {
-//		PostDAO dao = new PostDAO();
-//		
-//		for(int i = 1; true; i++) {
-//			try { dao.dummyInsert(i); }
-//			catch (Exception e) { break; }
-//		}
-//		System.out.println("더이상 Insert 할 수 없습니다!!\n");
-//	}
