@@ -20,22 +20,30 @@
 	
 		String diffStudentTime = null;
 		String diffStudentDay = null;
+		String diffStudentFoodTime = null;
 		
 		try {
 			Date nowDate = new Date();
 			Date studentDayDate = new SimpleDateFormat("yyyy-MM-dd").parse(strDay);
 			
+			
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(new Date());
+			
 			cal.set(Calendar.HOUR_OF_DAY , 18);
 			cal.set(Calendar.MINUTE, 20);
 			Date studentTimeDate = cal.getTime();
 			
+			cal.set(Calendar.HOUR_OF_DAY , 13);
+			Date studentFoodTimeDate = cal.getTime();
+			
 			long diffDaySec = (studentDayDate.getTime() - nowDate.getTime()) / 1000;
 			long diffTimeSec = (studentTimeDate.getTime() - nowDate.getTime()) / 1000;
+			long diffFoodTimeSec = (studentFoodTimeDate.getTime() - nowDate.getTime()) / 1000;
 			
 			diffStudentDay = ((diffDaySec >= 0) ? (diffDaySec/(24*60*60)+"일 남았습니다") : "과정이 종료되었습니다");		
 			diffStudentTime = ((diffTimeSec >= 0) ? ((diffTimeSec/(60*60))%24 +"시 "+ (diffTimeSec/60)%60) +"분 남았습니다" : "수업이 끝났습니다");
+			diffStudentFoodTime = ((diffFoodTimeSec >= 0) ? "점심 시간까지 "+ ((diffFoodTimeSec/(60*60))%24 +"시 "+ (diffFoodTimeSec/60)%60) +"분 남았습니다" : "");
 		} catch (ParseException e) {
 		    e.printStackTrace();
 		}   
@@ -52,9 +60,10 @@
 				<img src="./images/javaTitle.png" alt="QnA">
 			</div>
 			<div class="title_right">
-				<div class="title_day">남은 수업 일수 : <%= diffStudentDay %></div>
-				<div class="title_time">남은 수업 시간 : <%= diffStudentTime %></div>
-				<div class="title_wellcom"><%= userName %> 님 어서오세요</div>
+				<div class="foodTime"><%= diffStudentFoodTime %></div>
+				<div>남은 수업 일수 : <%= diffStudentDay %></div>
+				<div>남은 수업 시간 : <%= diffStudentTime %></div>
+				<div><%= userName %> 님 어서오세요</div>
 			</div>
 		</div>
 		<hr>

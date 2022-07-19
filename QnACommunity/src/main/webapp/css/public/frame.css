@@ -1,9 +1,12 @@
 @charset "EUC-KR";
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 
 * {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
+	font-family: 'Jua', sans-serif;
+	
 }
 
 a {
@@ -13,7 +16,7 @@ a {
 
 #wrap {
 	width: 900px;
-	min-height: 900px;
+	min-height: 850px;
 	margin: 0 auto;
 	background-color: aliceblue;
 	padding: 15px;
@@ -60,7 +63,7 @@ a {
 	background-color: gray;
 	position: absolute;
 	left: 0;
-	bottom: 0;
+	bottom: -50px;
 	font-size: 15px;
 }
 
