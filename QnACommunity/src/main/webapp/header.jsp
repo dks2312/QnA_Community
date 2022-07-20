@@ -26,7 +26,7 @@
                 </li>
                 <li>마이페이지
                     <ul class="sub_menu">
-                        <li><a href="#">회원정보</a></li>
+                        <li><a href="./MyInfo.jsp">회원정보</a></li>
                         <li><a href="#">작성한 게시글</a></li>
                         <li><a href="#">작성한 댓글</a></li>
                         <li><a href="#">좋아요한 게시글</a></li>

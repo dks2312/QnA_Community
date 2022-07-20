@@ -1,1 +1,72 @@
 @charset "UTF-8";
+
+.mid_content> *{
+    margin: 0 auto;
+}
+
+.wellcom{
+    min-width: 100px;
+    font-size: 40px;
+    color: royalblue;
+    text-align: center;
+    margin: 30px 0;
+}
+
+table, th, td{
+    border: 1px solid black;
+}
+table{
+    position: relative;
+    border-collapse: collapse;
+    width: 600px;
+    height: 500px;
+    word-wrap: break-word;
+}
+
+table caption{
+    font-size: 30px;
+}
+table .title{
+    width: 100px;
+}
+table .tb_content{
+    width: 500px;
+    font-size: 70px;
+    vertical-align: top;
+}
+
+.btns{
+    width: 500px;
+    display: flex;
+    justify-content: space-around;
+}
+.re_info{
+    position: absolute;
+    left: 1090px;
+    top: 300px;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    font-size: 20px;
+    color: royalblue;
+    text-align: center;
+    border: 3px solid black;
+    border-radius: 10px;
+}
+.ok_info{
+    width: 100px;
+    font-size: 20px;
+    color: royalblue;
+    text-align: center;
+    border: 3px solid black;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+.ok_info a, .re_info a{
+    display: block;
+    width: 100%; height: 100%;
+}
+.ok_info:hover, .re_info:hover{
+    background-color: blueviolet;
+}
+
