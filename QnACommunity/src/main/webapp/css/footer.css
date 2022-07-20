@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+footer {
+	width: 100%;
+	height: 50px;
+	background-color: gray;
+	position: absolute;
+	left: 0;
+	bottom: -50px;
+	font-size: 15px;
+
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+
+footer p{
+    font-size: 15px;
+}
+
+footer .github{
+    width: 35px;
+    height: 35px;
+    margin-top: 10px;
+}
+footer .github a{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+footer .github a img{
+    width: 100%;
+    height: 100%;
+}
