@@ -37,52 +37,48 @@
 
 
 	<div id="wrap">
-		<div class="header">
-			<div class="back_btn">
-				<a href="./LogIn.jsp">뒤로가기</a>
+		<jsp:include page="./header.jsp"/>
+		
+		<div class="content">
+			<div class="header">
+				<div class="back_btn">
+					<a href="./LogIn.jsp">뒤로가기</a>
+				</div>
 			</div>
-
-		</div>
-
-		<div class="sub_title">
-			<h1>회원가입</h1>
-		</div>
-		
-		
-
-		
-		
-
-		<form action="SignUpProcess.jsp" method="post" onsubmit="return validateForm(this);">
-			<button type="button" class="id_check off" id="id_check_helf">중복체크</button>
-			<table class="sign_up_table">
-				<tr>
-					<td class="lab"><label for="id_filed">아이디 : </label></td>
-					<td class="inp"><input id="id_filed" name="id" type="text"></td>
-				</tr>
-				<tr>
-					<td class="lab"><label for="pw_filed">비밀번호 : </label></td>
-					<td class="inp"><input id="pw_filed" name="pw" type="password"></td>
-				</tr>
-				<tr>
-					<td class="lab"><label for="pw_check_filed">비밀번호 확인 : </label></td>
-					<td class="inp"><input id="pw_check_filed" name="pw_check" type="password"></td>
-				</tr>
-				<tr>
-					<td class="lab"><label for="nic_name_filed">닉네임 : </label></td>
-					<td class="inp"><input id="nic_name_filed" name="nic_name" type="text"></td>
-				</tr>
-			</table>
-
-			<div class="submit">
-				<button type="submit" id="Register">가입하기</button>
+	
+			<div class="sub_title">
+				<h1>회원가입</h1>
 			</div>
-		</form>
-
-		<footer class="footer"> Lorem ipsum, dolor sit amet
-			consectetur adipisicing elit. Dolores odio debitis dignissimos saepe,
-			repudiandae deleniti qui rem? Veniam, ratione! Error cum perspiciatis
-			a expedita molestiae repellendus autem ipsam animi magni? </footer>
+			
+	
+			<form action="SignUpProcess.jsp" method="post" onsubmit="return validateForm(this);">
+				<button type="button" class="id_check off" id="id_check_helf">중복체크</button>
+				<table class="sign_up_table">
+					<tr>
+						<td class="lab"><label for="id_filed">아이디 : </label></td>
+						<td class="inp"><input id="id_filed" name="id" type="text"></td>
+					</tr>
+					<tr>
+						<td class="lab"><label for="pw_filed">비밀번호 : </label></td>
+						<td class="inp"><input id="pw_filed" name="pw" type="password"></td>
+					</tr>
+					<tr>
+						<td class="lab"><label for="pw_check_filed">비밀번호 확인 : </label></td>
+						<td class="inp"><input id="pw_check_filed" name="pw_check" type="password"></td>
+					</tr>
+					<tr>
+						<td class="lab"><label for="nic_name_filed">닉네임 : </label></td>
+						<td class="inp"><input id="nic_name_filed" name="nic_name" type="text"></td>
+					</tr>
+				</table>
+	
+				<div class="submit">
+					<button type="submit" id="Register">가입하기</button>
+				</div>
+			</form>
+		</div>
+		
+		<jsp:include page="./footer.html"/>
 	</div>
 </body>
 </html>

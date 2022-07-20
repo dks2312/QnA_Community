@@ -54,100 +54,99 @@
 	<%}%>
 
 	<div id="wrap">
-		<form method="get">
-			<header class="header">
-				<div class="back_btn">
-					<a href="./Index.jsp">뒤로가기</a>
-				</div>
-				<div class="search_pane">
-					<input class="search" type="text" name="search" value="<%= (request.getParameter("search")==null)?"":request.getParameter("search") %>">
-				</div>
-				<button>검색</button>
-			</header>
-	
-			<div class="board_set">
-				<div class="seting">
-					<div class="category_selected">
-						<label for="category_items">카테고리</label> 
-						<select name="searchCategory" id="category_items">
-							<option value="all">전체</option>
-							<option value="질문">질문</option>
-							<option value="에러">에러</option>
-							<option value="자유">자유</option>
-						</select>
+		<jsp:include page="./header.jsp"/>
+
+		<div class="content">
+
+			<form method="get" action="PostBoard.jsp">
+				<div class="search_bar">
+					<div class="back_btn">
+						<a href="./Index.jsp">뒤로가기</a>
 					</div>
-					<div class="sort_selected">
-						<label for="sort_items">정렬</label> 
-						<select name="searchSort" id="sort_items">
-							<option value="NUM">기본</option>
-							<option value="POST_DATE">최신순</option>
-							<option value="LIKE_COUNT">인기순</option>
-							<option value="VISIT_COUNT">조회순</option>
-						</select>
+					<div class="search_pane">
+						<input class="search" type="text" name="search" value="<%= (request.getParameter("search")==null)?"":request.getParameter("search") %>">
+						<button>검색</button>
 					</div>
 				</div>
-	
-				<div class="post_write">
-					<a href="./PostEditer.jsp">새 글 작성하기</a>
-				</div>
-			</div>
-		</form>
 
-
-		<div class="post_board">
-			<div class="post_tilte">
-				<div class="post_category">카테고리</div>
-				<div class="post_title">제목</div>
-				<div class="post_view">조회수</div>
-				<div class="post_comment_count">댓글</div>
-				<div class="post_like_count">좋아요</div>
-				<div class="post_date_created">작성일</div>
-			</div>
-			<% 
-			if(postList == null || postList.isEmpty()){
-			%> 
-				<div class="no_post">등록된 게시물이 없습니다</div>
-			<%
-			} else{
-				int virtualNumber = 0;
-				int countNum = 0;
-				int likeCount = 0;
-				int commentCount = 0;
-				
-				for(PostVO post : postList){
-					virtualNumber = totalCount - (((pageNum - 1) * pageSize) + countNum++);
-					
-					likeCount = postDAO.getLikeCount(post.getNum());
-					commentCount = postDAO.getCommentCount(post.getNum());
-			%>
-					<div class="post">
-						<div class="post_category"><%= post.getCartegory() %></div>
-						<div class="post_title">
-							<a href="./Post.jsp?num=<%= post.getNum() %>"><%= post.getTitle() %></a>
+				<div class="board_set">
+					<div class="seting">
+						<div class="category_selected">
+							<label for="category_items">카테고리</label> 
+							<select name="searchCategory" id="category_items">
+								<option value="all">전체</option>
+								<option value="질문">질문</option>
+								<option value="에러">에러</option>
+								<option value="자유">자유</option>
+							</select>
 						</div>
-						<div class="post_view">조회수 : <%= post.getVisitCount() %></div>
-						<div class="post_comment_count">댓글 : <%= commentCount %></div>
-						<div class="post_like_count">좋아요 : <%= likeCount %></div>
-						<div class="post_date_created"><%= post.getPostDate() %></div>
+						<div class="sort_selected">
+							<label for="sort_items">정렬</label> 
+							<select name="searchSort" id="sort_items">
+								<option value="NUM">기본</option>
+								<option value="POST_DATE">최신순</option>
+								<option value="LIKE_COUNT">인기순</option>
+								<option value="VISIT_COUNT">조회순</option>
+							</select>
+						</div>
 					</div>
-			<%
-				}
-				
-				postDAO.close();
-			%>
-				</div>
-				<div class="post_board_number">
-				<%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, request.getRequestURI()) %>
-				</div>
-			<%
-			}
-			%>
 		
-		<footer class="footer"> Lorem ipsum dolor sit amet
-			consectetur adipisicing elit. Ipsa, tenetur at! Quia necessitatibus
-			doloremque voluptas in nulla, qui natus? Quia rerum recusandae omnis
-			nisi sit a aliquid harum ipsum cumque. 
-		</footer>
+					<div class="post_write">
+						<a href="./PostEditer.jsp">새 글 작성하기</a>
+					</div>
+				</div>
+			</form>
+			
+			<div class="post_board">
+				<div class="post_tilte">
+					<div class="post_category">카테고리</div>
+					<div class="post_title">제목</div>
+					<div class="post_view">조회수</div>
+					<div class="post_comment_count">댓글</div>
+					<div class="post_like_count">좋아요</div>
+					<div class="post_date_created">작성일</div>
+				</div>
+				<% 
+				if(postList == null || postList.isEmpty()){
+				%> 
+					<div class="no_post">등록된 게시물이 없습니다</div>
+				<%
+				} else{
+					int virtualNumber = 0;
+					int countNum = 0;
+					int likeCount = 0;
+					int commentCount = 0;
+					
+					for(PostVO post : postList){
+						virtualNumber = totalCount - (((pageNum - 1) * pageSize) + countNum++);
+						
+						likeCount = postDAO.getLikeCount(post.getNum());
+						commentCount = postDAO.getCommentCount(post.getNum());
+				%>
+						<div class="post">
+							<div class="post_category"><%= post.getCartegory() %></div>
+							<div class="post_title">
+								<a href="./Post.jsp?num=<%= post.getNum() %>"><%= post.getTitle() %></a>
+							</div>
+							<div class="post_view">조회수 : <%= post.getVisitCount() %></div>
+							<div class="post_comment_count">댓글 : <%= commentCount %></div>
+							<div class="post_like_count">좋아요 : <%= likeCount %></div>
+							<div class="post_date_created"><%= post.getPostDate() %></div>
+						</div>
+				<%
+					}
+					
+					postDAO.close();
+				%>
+					</div>
+					<div class="post_board_number">
+					<%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, request.getRequestURI()) %>
+					</div>
+				<%
+				}
+				%>
+		</div>
+		<jsp:include page="./footer.html"/>
 	</div>
 </body>
 </html>

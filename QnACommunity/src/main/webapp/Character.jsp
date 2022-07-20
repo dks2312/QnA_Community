@@ -11,6 +11,9 @@
 </head>
 <body>
 	<div id="wrap">
+		<jsp:include page="./header.jsp"/>
+		
+		<div class="content">
 		<div class="header">
 			<div class="back_btn">
 				<a href="./Index.jsp">뒤로가기</a>
@@ -20,10 +23,9 @@
 		일정 캘린더
 		<img src="./images/cal.png">
 
-		<footer class="footer"> Lorem ipsum, dolor sit amet
-			consectetur adipisicing elit. Dolores odio debitis dignissimos saepe,
-			repudiandae deleniti qui rem? Veniam, ratione! Error cum perspiciatis
-			a expedita molestiae repellendus autem ipsam animi magni? </footer>
+		</div>
+		
+		<jsp:include page="./footer.html"/>
 	</div>
 </body>
 </html>

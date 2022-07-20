@@ -45,40 +45,40 @@
 	</script>
 
 	<div id="wrap">
+		<jsp:include page="./header.jsp"/>
 		
-		<header class="header">
-			<div class="back_btn">
-				<a href="./PostBoard.jsp">뒤로가기</a>
-			</div>
-			<div class="search_pane"></div>
-			<button  class="action_btn" form="new_post_form" >글 게시하기</button>
-		</header>
+		<div class="content">
+			<header class="header">
+				<div class="back_btn">
+					<a href="./PostBoard.jsp">뒤로가기</a>
+				</div>
+				<div class="search_pane"></div>
+				<button  class="action_btn" form="new_post_form" >글 게시하기</button>
+			</header>
+			
+			<form method="post" onsubmit="return validateForm(this)" id="new_post_form" action="PostUpLoadProcess.jsp">
+				<div class="post_property">
+					<div class="post_title">
+						<label for="post_title_input">제목</label> 
+						<input type="text" name="post_title_input">
+					</div>
 		
-		<form method="post" onsubmit="return validateForm(this)" id="new_post_form" action="PostUpLoadProcess.jsp">
-			<div class="post_property">
-				<div class="post_title">
-					<label for="post_title_input">제목</label> 
-					<input type="text" name="post_title_input">
+					<div class="post_category_selected">
+						<label for="post_category_items">카테고리</label> 
+						<select name="category" id="post_category_items">
+							<option value="none">선택</option>
+							<option value="퀴즈">질문</option>
+							<option value="에러">에러</option>
+							<option value="자유">자유</option>
+						</select>
+					</div>
 				</div>
 	
-				<div class="post_category_selected">
-					<label for="post_category_items">카테고리</label> 
-					<select name="category" id="post_category_items">
-						<option value="none">선택</option>
-						<option value="퀴즈">질문</option>
-						<option value="에러">에러</option>
-						<option value="자유">자유</option>
-					</select>
-				</div>
-			</div>
-
-			<textarea id="summernote" name="editordata"></textarea>
-		</form>
-
-		<footer class="footer"> Lorem ipsum dolor sit amet
-			consectetur adipisicing elit. Ipsa, tenetur at! Quia necessitatibus
-			doloremque voluptas in nulla, qui natus? Quia rerum recusandae omnis
-			nisi sit a aliquid harum ipsum cumque. </footer>
+				<textarea id="summernote" name="editordata"></textarea>
+			</form>
+		</div>
+		
+		<jsp:include page="./footer.html"/>
 	</div>
 </body>
 </html>

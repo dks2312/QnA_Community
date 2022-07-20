@@ -1,11 +1,8 @@
 @charset "UTF-8";
 
 header {
-    position: absolute;
-    top: -50px; left: 0;
 	width: 100%;
 	height: 50px;
-    background-color: beige;
     display: flex;
     /* justify-content: center; */
 }
@@ -19,11 +16,6 @@ img{
     width: 100%; height: 100%;
 }
 
-.endTime{
-    width: 150px;
-    height: 100%;
-    background-color: aqua;
-}
 
 nav{
     flex-grow: 1;
@@ -52,6 +44,7 @@ nav ul.main_menu li, nav ul.main_menu> div{
 }
 nav ul.main_menu li:hover, nav ul.main_menu div:hover{
     background-color: red;
+    cursor: pointer;
 }
 nav ul.main_menu li a, nav ul.main_menu div a{
     display: block;

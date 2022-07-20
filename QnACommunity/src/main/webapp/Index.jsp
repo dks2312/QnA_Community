@@ -55,43 +55,31 @@
 	%>
 
 	<div id="wrap">
-		<div class="title">
-			<div class="title_left">
-				<img src="./images/javaTitle.png" alt="QnA">
-			</div>
-			<div class="title_right">
-				<div class="foodTime"><%= diffStudentFoodTime %></div>
-				<div>남은 수업 일수 : <%= diffStudentDay %></div>
-				<div>남은 수업 시간 : <%= diffStudentTime %></div>
-				<div><%= userName %> 님 어서오세요</div>
-			</div>
-		</div>
-		<hr>
-		<div class="content_menu">
-			<div class="btn ">
-				<a href="./PostBoard.jsp?search=">게시판</a>
-			</div>
-			<div class="btn off">
-				<a href="#">잡담</a>
-			</div>
-			<div class="btn">
-				<a href="./Character.jsp">일정</a>
-			</div>
-			<div class="btn">
-				<%if(session.getAttribute("User") == null) {%>
-					<a href="./LogIn.jsp">로그인</a>
-				<%} else {%>
-					<a href="./LogOutProcess.jsp">로그아웃</a>
-				<%} %>
-				
+		<jsp:include page="./header.jsp"/>
+		
+		<div class="content">
+			<div class="content_menu">
+				<div class="btn ">
+					<a href="./PostBoard.jsp?search=">게시판</a>
+				</div>
+				<div class="btn off">
+					<a href="#">잡담</a>
+				</div>
+				<div class="btn">
+					<a href="./Character.jsp">일정</a>
+				</div>
+				<div class="btn">
+					<%if(session.getAttribute("User") == null) {%>
+						<a href="./LogIn.jsp">로그인</a>
+					<%} else {%>
+						<a href="./LogOutProcess.jsp">로그아웃</a>
+					<%} %>
+					
+				</div>
 			</div>
 		</div>
-
-		<footer class="footer"> Lorem ipsum dolor sit amet
-			consectetur adipisicing elit. Ipsa, tenetur at! Quia necessitatibus
-			doloremque voluptas in nulla, qui natus? Quia rerum recusandae omnis
-			nisi sit a aliquid harum ipsum cumque. 
-		</footer>
+		
+		<jsp:include page="./footer.html"/>
 	</div>
 </body>
 </html>
