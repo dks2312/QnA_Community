@@ -146,7 +146,8 @@
 		<footer class="footer"> Lorem ipsum dolor sit amet
 			consectetur adipisicing elit. Ipsa, tenetur at! Quia necessitatibus
 			doloremque voluptas in nulla, qui natus? Quia rerum recusandae omnis
-			nisi sit a aliquid harum ipsum cumque. </footer>
+			nisi sit a aliquid harum ipsum cumque. 
+		</footer>
 	</div>
 </body>
 </html>

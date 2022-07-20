@@ -18,6 +18,7 @@
 		</div>
 
 		일정 캘린더
+		<img src="./images/cal.png">
 
 		<footer class="footer"> Lorem ipsum, dolor sit amet
 			consectetur adipisicing elit. Dolores odio debitis dignissimos saepe,

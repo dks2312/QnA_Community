@@ -207,8 +207,6 @@ public class PostDAO extends BasicDAO implements Like{
 		
 		int cartegoryRandom = (int)(Math.random() * cartegorys.length);
 		int visitCount = (int)(Math.random() * 10000);
-		int likeCount = (int)(Math.random() * 10000);
-		int commentCount = (int)(Math.random() * 1000);
 		
 		Calendar cal = Calendar.getInstance();
 		java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm");
@@ -216,10 +214,9 @@ public class PostDAO extends BasicDAO implements Like{
 		String postDate = df.format(cal.getTime());
 		
 		
-		String query = "INSERT INTO POST(NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, LIKE_COUNT, COMMENT_COUNT, POST_DATE) "
+		String query = "INSERT INTO POST(NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, POST_DATE) "
 				+ "VALUES(SEO_POST_NUM.NEXTVAL, '"+ cartegorys[cartegoryRandom] + "', '"+ title + "', '"+ content + "', '"+ writer + "', "
-					+ "'"+ visitCount + "', '"+ likeCount + "', '"+ commentCount + "', "
-					+ "to_date('"+ postDate +"','YYYY/MM/DD HH24:MI'))";
+					+ "'"+ visitCount + "', " + "to_date('"+ postDate +"','YYYY/MM/DD HH24:MI'))";
 		System.out.println("SQL : " + query);
 		
 		stmt.executeQuery(query);
