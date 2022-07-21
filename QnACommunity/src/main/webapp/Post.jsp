@@ -57,12 +57,6 @@
 				<div class="back_btn">
 					<a href="./PostBoard.jsp">뒤로가기</a>
 				</div>
-				<div class="search_pane">
-				<form method="get" action="PostBoard.jsp">
-					<input class="search" type="text" name="search" value="<%= (request.getParameter("search")==null)?"":request.getParameter("search") %>">
-					<button>검색</button>
-				</form>
-				</div>
 			</div>
 	
 			<div class="post">
@@ -90,7 +84,7 @@
 						</a>
 					</div>
 					<hr>
-					<div class="comment_body"><%= com.getContent() %></div>
+					<div class="comment_body"><%= com.getSimlpDate() %></div>
 				</div>
 			<%	
 			}

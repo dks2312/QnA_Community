@@ -30,9 +30,20 @@ public class PostDAO extends BasicDAO implements Like{
 	public int selectCount(Map<String, Object> map) {
 		String query = "SELECT Count(*) FROM POST ";
 		
-		if(map.get("search") != null) {
-			query += "WHERE title LIKE '%"+ map.get("search") +"%' ";
-		} 
+		
+		query += "WHERE title LIKE '%"+ map.get("search") +"%' ";
+		
+		
+		// 카테고리
+		if(!map.get("searchCategory").equals("all")) {
+			query += "AND CATEGORY = '"+ map.get("searchCategory") +"' ";
+		}
+		
+		// 정렬
+		if(map.get("searchSort").equals("NUM")) 
+			query += "ORDER BY NUM ASC";
+		else 
+			query += "ORDER BY "+ map.get("searchSort") +" DESC";
 		
 		System.out.println(query);
 		
@@ -56,30 +67,23 @@ public class PostDAO extends BasicDAO implements Like{
 	// 페이징 기능
 	public Queue<PostVO> selectListPage(Map<String, Object> map) {
 		Queue<PostVO> list = new LinkedList<PostVO>();
+		String query;
 		
-		String query = "SELECT NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, POST_DATE FROM ( "
-						+"	SELECT Tb.*, ROWNUM rNum FROM ( "
-						+"		SELECT * FROM POST ";
+		query = "SELECT NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, POST_DATE FROM ( "
+				+"	SELECT Tb.*, ROWNUM rNum FROM ( "
+				+"		SELECT * FROM POST "
+				+"		WHERE title LIKE '%"+ map.get("search") +"%' ";
 		
-		boolean flag = false;
-		// 검색
-		if(map.get("search") != null) {
-			query += "WHERE title LIKE '%"+ map.get("search") +"%' ";
-			flag = true;
-		} 
-		
-		// 카테고리
-		if(!(map.get("searchCategory") == null || map.get("searchCategory").equals("all"))) {
-			query += (flag ? "AND" : "WHERE") +" CATEGORY = '"+ map.get("searchCategory") +"' ";
+		if(!map.get("searchCategory").equals("all")) {
+			query +=" 	AND CATEGORY = '"+ map.get("searchCategory") +"' ";
 		}
 		
-		// 정렬
-		if(map.get("searchSort") == null) 
-			query += "ORDER BY NUM";
+		if(map.get("searchSort").equals("NUM")) 
+			query += "ORDER BY NUM ASC";
 		else 
 			query += "ORDER BY "+ map.get("searchSort") +" DESC";
 		
-		query += "	) Tb"
+		query +="	) Tb"
 				+")"
 				+"WHERE rNum BETWEEN ? AND ?";
 		

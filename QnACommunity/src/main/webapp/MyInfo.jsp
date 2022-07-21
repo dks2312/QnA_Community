@@ -2,6 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ page import="DB.MemberVO" %>
 <% 
+	if(session.getAttribute("User") == null){
+		request.setAttribute("UserErr", "로그인을 한 후 이용할 수 있습니다");
+		request.getRequestDispatcher("Index.jsp").forward(request, response);
+		return;
+	}
+
 	String state = request.getParameter("state");
 	MemberVO user =(MemberVO)session.getAttribute("User");
 
@@ -33,24 +39,30 @@
 			<div class="mid_content">
 				<div class="wellcom"><h1>안녕하세요 <%= user.getNickName() %>님</h1></div>
 				
-				<table>
-					<caption><h2>나의 정보</h2></caption>
-					<tr>
-						<th class="title">닉네임</th>
-						<td class="tb_content"><%= user.getNickName() %></td>
-					</tr>
-					<tr>
-						<th class="title">아이디</th>
-						<td class="tb_content"><%= user.getId() %></td>
-					</tr>
-					<tr>
-						<th class="title">비밀번호</th>
-						<td class="tb_content"><%= user.getPassword() %></td>
-					</tr>
-				</table>
+				<div class="layout_info">
+					<div></div>
+					<table>
+						<caption>나의 정보</caption>
+						<tr>
+							<th class="title">닉네임</th>
+							<td class="tb_content"><%= user.getNickName() %></td>
+						</tr>
+						<tr>
+							<th class="title">아이디</th>
+							<td class="tb_content"><%= user.getId() %></td>
+						</tr>
+						<tr>
+							<th class="title">비밀번호</th>
+							<td class="tb_content"><%= user.getPassword() %></td>
+						</tr>
+					</table>
+					<div>
+						<div class="re_info"><a href="MyInfo.jsp?state=change">닉네임 수정</a></div>
+					</div>
+				</div>
 
 				<div class="ok_info"><a href="MyInfo.jsp?state=back">확인</a></div>
-				<div class="re_info"><a href="MyInfo.jsp?state=change">닉네임 수정</a></div>
+				
 			</div>
 		</div>
 		

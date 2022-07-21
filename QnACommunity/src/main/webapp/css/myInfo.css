@@ -12,6 +12,11 @@
     margin: 30px 0;
 }
 
+.layout_info{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 100px minmax(500px, auto) 100px;
+}
 table, th, td{
     border: 1px solid black;
 }
@@ -35,15 +40,7 @@ table .tb_content{
     vertical-align: top;
 }
 
-.btns{
-    width: 500px;
-    display: flex;
-    justify-content: space-around;
-}
 .re_info{
-    position: absolute;
-    left: 1090px;
-    top: 300px;
     width: 100px;
     height: 100px;
     line-height: 100px;

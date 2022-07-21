@@ -1,4 +1,4 @@
-var items = document.querySelectorAll('.main_menu> li');
+var items = document.querySelectorAll('.main_menu> li.itme_sub');   // sub메뉴가 있는 아이템만 뽑아옴
 var sub_menus = document.querySelectorAll('.sub_menu');
 
 // 메뉴 영역에 커서를 옮겼을 때 서브메뉴 활성화

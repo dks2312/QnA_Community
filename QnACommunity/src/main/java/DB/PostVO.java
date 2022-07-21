@@ -2,7 +2,9 @@ package DB;
 
 import java.sql.Clob;
 
-public class PostVO {
+import utils.SimlpDate;
+
+public class PostVO implements SimlpDate{
 	private long num;	// 게시글의 일련 번호로 DB에서 관리됨.
 	private String cartegory;
 	private String title;
@@ -40,4 +42,9 @@ public class PostVO {
 	public String getWriter() 		{ return writer; }
 	public int getVisitCount() 		{ return visitCount; }
 	public String getPostDate() 	{ return postDate; }
+	
+	
+	public String getSimlpDate() {
+		return getSimlpDate(this.postDate);
+	}
 }

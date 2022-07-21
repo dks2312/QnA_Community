@@ -8,13 +8,18 @@
 	PostDAO postDAO = new PostDAO(application);
 
 	Map<String, Object> param = new HashMap<String, Object>();
+	
 	String search = request.getParameter("search");
 	String searchSort = request.getParameter("searchSort");
 	String searchCategory = request.getParameter("searchCategory");
 	
-	if(search != null) param.put("search", search);
-	if(searchSort != null) param.put("searchSort", searchSort);
-	if(searchCategory != null) param.put("searchCategory", searchCategory);
+	if(search == null) search = "";
+	if(searchSort == null) searchSort = "NUM";
+	if(searchCategory == null) searchCategory = "all";
+	
+	param.put("search", search);
+	param.put("searchSort", searchSort);
+	param.put("searchCategory", searchCategory);
 	
 	int totalCount = postDAO.selectCount(param);
 	
@@ -37,6 +42,11 @@
 	
 	
 	Queue<PostVO> postList = postDAO.selectListPage(param);
+	
+	System.out.println("a : "+ pageContext.getAttribute("a"));
+	pageContext.setAttribute("a", search);
+	
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -64,8 +74,8 @@
 						<a href="./Index.jsp">뒤로가기</a>
 					</div>
 					<div class="search_pane">
-						<input class="search" type="text" name="search" value="<%= (request.getParameter("search")==null)?"":request.getParameter("search") %>">
-						<button>검색</button>
+						<input class="search" type="text" name="search" value="<%= (search==null)?"":search %>">
+						<button type="submit">검색</button>
 					</div>
 				</div>
 
@@ -73,20 +83,20 @@
 					<div class="seting">
 						<div class="category_selected">
 							<label for="category_items">카테고리</label> 
-							<select name="searchCategory" id="category_items">
+							<select name="searchCategory" id="category_items" onchange="this.form.submit()">
 								<option value="all">전체</option>
-								<option value="질문">질문</option>
-								<option value="에러">에러</option>
-								<option value="자유">자유</option>
+								<option value="질문" <%= searchCategory.equals("질문")?"selected":"" %>>질문</option>
+								<option value="에러" <%= searchCategory.equals("에러")?"selected":"" %>>에러</option>
+								<option value="자유" <%= searchCategory.equals("자유")?"selected":"" %>>자유</option>
 							</select>
 						</div>
 						<div class="sort_selected">
 							<label for="sort_items">정렬</label> 
-							<select name="searchSort" id="sort_items">
+							<select name="searchSort" id="sort_items" onchange="this.form.submit()">
 								<option value="NUM">기본</option>
-								<option value="POST_DATE">최신순</option>
-								<option value="LIKE_COUNT">인기순</option>
-								<option value="VISIT_COUNT">조회순</option>
+								<option value="POST_DATE" <%= searchSort.equals("POST_DATE")?"selected":"" %>>최신순</option>
+								<option value="LIKE_COUNT" <%= searchSort.equals("LIKE_COUNT")?"selected":"" %>>인기순</option>
+								<option value="VISIT_COUNT" <%= searchSort.equals("VISIT_COUNT")?"selected":"" %>>조회순</option>
 							</select>
 						</div>
 					</div>
@@ -131,7 +141,7 @@
 							<div class="post_view">조회수 : <%= post.getVisitCount() %></div>
 							<div class="post_comment_count">댓글 : <%= commentCount %></div>
 							<div class="post_like_count">좋아요 : <%= likeCount %></div>
-							<div class="post_date_created"><%= post.getPostDate() %></div>
+							<div class="post_date_created"><%= post.getSimlpDate() %></div>
 						</div>
 				<%
 					}
@@ -140,7 +150,7 @@
 				%>
 					</div>
 					<div class="post_board_number">
-					<%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, request.getRequestURI()) %>
+					<%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, request.getRequestURI(), param) %>
 					</div>
 				<%
 				}

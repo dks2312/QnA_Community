@@ -31,9 +31,9 @@ nav ul.main_menu{
     display: flex;
     align-items: center;
 }
-nav ul.main_menu li, nav ul.main_menu> div{
+nav ul.main_menu li{
     position: relative;
-    width: 100px;
+    min-width: 100px;
     height: 30px;
     text-align: center;
     line-height: 30px;
@@ -42,11 +42,11 @@ nav ul.main_menu li, nav ul.main_menu> div{
     border-radius: 10px;
     background-color: aqua;
 }
-nav ul.main_menu li:hover, nav ul.main_menu div:hover{
+nav ul.main_menu li:hover{
     background-color: red;
     cursor: pointer;
 }
-nav ul.main_menu li a, nav ul.main_menu div a{
+nav ul.main_menu li a{
     display: block;
     width: 100%; height: 100%;
 }
@@ -63,7 +63,7 @@ nav ul.main_menu> li.time ul.sub_menu> li{
     justify-content: space-between;
     padding: 0 5px;
 }
-nav ul.main_menu> li.time ul.sub_menu> li> div.value{
+nav ul.main_menu> li.time ul.sub_menu> li> .value{
     text-align: right;
 }
 
@@ -71,4 +71,11 @@ nav ul.main_menu> li ul.on{
     display: block;
 }
 
+
+hr{
+	width: 95%;
+	height: 1px;
+	margin: 0 auto;
+	background-color: black;
+}
 

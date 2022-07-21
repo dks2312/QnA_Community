@@ -1,6 +1,8 @@
 package DB;
 
-public class CommentVO {
+import utils.SimlpDate;
+
+public class CommentVO implements SimlpDate{
 	private long num;
 	private long post_FK;
 	private String writerName;
@@ -25,4 +27,8 @@ public class CommentVO {
 	public String getWriterName() 	{ return writerName; }
 	public String getContent() 		{ return content; }
 	public String getDate() 		{ return date; }
+	
+	public String getSimlpDate() {
+		return getSimlpDate(this.date);
+	}
 }
