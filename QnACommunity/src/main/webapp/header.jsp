@@ -87,7 +87,7 @@
 				<%} %>
 				
 				<%if(session.getAttribute("User") == null) {%>
-					<li class="itme login">로그인
+					<li class="itme_sub login">로그인
 						<ul class="sub_menu">
 							<li><a href="./LogIn.jsp">로그인</a></li>
 							<li><a href="./SignUp.jsp">회원가입</a></li>

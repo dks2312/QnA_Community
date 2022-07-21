@@ -21,10 +21,10 @@
 		<div class="content">
 			<div class="content_menu">
 				<div class="btn ">
-					<a href="./PostBoard.jsp?search=">게시판</a>
+					<a href="./PostBoard.jsp">게시판</a>
 				</div>
 				<div class="btn off">
-					<a href="#">잡담</a>
+					<a href="#">성남</a>
 				</div>
 				<div class="btn">
 					<a href="./Character.jsp">일정</a>

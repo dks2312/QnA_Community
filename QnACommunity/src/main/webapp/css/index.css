@@ -31,18 +31,18 @@
 	height: 500px;
 	display: grid;
 	justify-items: center;
-	grid-template-rows: repeat(4, 100px);
-	row-gap: 20px;
+	grid-template-rows: repeat(3, 200px);
+	row-gap: 50px;
 	margin-top: 10px;
 }
 
 .content_menu> .btn {
-	width: 350px;
-	height: 80px;
+	width: 400px;
+	height: 150px;
 	border: 1px solid black;
 	text-align: center;
-	line-height: 80px;
-	border-radius: 5px;
+	line-height: 150px;
+	border-radius: 50px;
 	background-color: chocolate;
 }
 

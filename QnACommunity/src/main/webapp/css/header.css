@@ -30,6 +30,7 @@ nav> *{
 nav ul.main_menu{
     display: flex;
     align-items: center;
+    z-index: 99999;
 }
 nav ul.main_menu li{
     position: relative;
