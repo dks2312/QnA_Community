@@ -7,7 +7,7 @@ import java.util.*;
 import javax.servlet.ServletContext;
 
 
-public class PostDAO extends BasicDAO implements Like{
+public class PostDAO extends BasicDAO implements Like<PostVO>{
 	public PostDAO(){ super(); }
 	public PostDAO(ServletContext application){ super(application); }
 	
@@ -32,7 +32,6 @@ public class PostDAO extends BasicDAO implements Like{
 		
 		
 		query += "WHERE title LIKE '%"+ map.get("search") +"%' ";
-		
 		
 		// 카테고리
 		if(!map.get("searchCategory").equals("all")) {
@@ -63,6 +62,119 @@ public class PostDAO extends BasicDAO implements Like{
 		
 		return 0;
 	}
+	
+	@Override
+	public Queue<PostVO> likeSearch(String userId) {
+		Queue<PostVO> list = new LinkedList<PostVO>();
+		String query = "SELECT p.NUM, p.CATEGORY, p.TITLE, p.CONTENT, p.WRITER, p.VISIT_COUNT, p.POST_DATE "
+						+ "FROM LIKE_POST_TB lp, POST p "
+						+ "WHERE lp.LIKE_NUM = p.NUM  "
+						+ "AND lp.LIKE_USER = ?";
+		System.out.println("SQL : " + query);
+		
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, userId);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) { 
+				PostVO tmp = new PostVO(
+						rs.getLong(1),
+						rs.getString(2),
+						rs.getString(3),
+						rs.getClob(4),
+						rs.getString(5),
+						rs.getInt(6),
+						rs.getString(7));
+				list.offer(tmp);
+			}
+			
+			return list;
+		} catch (SQLException e) { e.printStackTrace(); }
+		
+		return null;
+	}
+	// 사용자가 작성한 게시글
+	public Queue<PostVO> userSearch(String userId) {
+		Queue<PostVO> list = new LinkedList<PostVO>();
+		String query = "SELECT NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, POST_DATE "
+						+ "FROM POST WHERE "
+						+ "WRITER = ?";
+		System.out.println("SQL : " + query);
+		
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, userId);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				PostVO tmp = new PostVO(
+						rs.getLong(1),
+						rs.getString(2),
+						rs.getString(3),
+						rs.getClob(4),
+						rs.getString(5),
+						rs.getInt(6),
+						rs.getString(7));
+				
+				list.offer(tmp);
+			}
+			
+			return list;
+		} catch (SQLException e) { e.printStackTrace(); }
+		
+		return null;
+	}
+	
+	public Queue<PostVO> selectList(Map<String, Object> map) {
+		Queue<PostVO> list = new LinkedList<PostVO>();
+		String query ="";
+		
+		query += "SELECT NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, POST_DATE FROM POST ";
+		
+		
+		query += "WHERE title LIKE '%"+ map.get("search") +"%' ";
+		
+		// 사용자
+		if(map.get("userId") != null) {
+			query += "AND WRITER = '"+ map.get("userId") +"' ";
+		}
+		
+		// 카테고리
+		if(!map.get("searchCategory").equals("all")) {
+			query += "AND CATEGORY = '"+ map.get("searchCategory") +"' ";
+		}
+		
+		// 정렬
+		if(map.get("searchSort").equals("NUM")) 
+			query += "ORDER BY NUM ASC";
+		else 
+			query += "ORDER BY "+ map.get("searchSort") +" DESC";
+		
+		System.out.println(query);
+		
+		try {
+			rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				PostVO tmp = new PostVO(
+						rs.getLong(1),
+						rs.getString(2),
+						rs.getString(3),
+						rs.getClob(4),
+						rs.getString(5),
+						rs.getInt(6),
+						rs.getString(7));
+				list.offer(tmp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		return list;
+	}
+		
 	
 	// 페이징 기능
 	public Queue<PostVO> selectListPage(Map<String, Object> map) {

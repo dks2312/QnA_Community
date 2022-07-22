@@ -36,4 +36,14 @@ public class MemberDAO extends BasicDAO{
 			e.printStackTrace();
 		}
 	}
+	
+	public void reName(String target_id, String name) {
+		try {
+			String query = "UPDATE MEMBER SET NICK_NAME = '"+ name +"' WHERE ID = '"+ target_id +"'";
+			System.out.println("SQL : " + query);
+			stmt.executeQuery(query);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

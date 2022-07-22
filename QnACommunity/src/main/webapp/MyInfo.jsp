@@ -8,20 +8,7 @@
 		return;
 	}
 
-	String state = request.getParameter("state");
 	MemberVO user =(MemberVO)session.getAttribute("User");
-
-	if(state != null){
-		switch(state){
-		case "back":
-			System.out.println("뒤로가기");
-			break;
-		case "change":
-			System.out.println("닉넴변경");
-			break;
-		default:
-		}
-	}
 %>
 <!DOCTYPE html>
 <html>
@@ -30,6 +17,15 @@
 <link rel="stylesheet" href="./css/myInfo.css">
 <link rel="stylesheet" href="./css/public/frame.css">
 <title>질문 있습니다!!!</title>
+<script> 
+
+	function reName(){
+		var returnName = prompt('변경할 닉네임을 입력해주세요');
+		
+		var URL = "MyInfoProcess.jsp?changeName="+ returnName;
+		location.href = URL;
+	}
+</script>
 </head>
 <body>
 	<div id="wrap">
@@ -57,11 +53,11 @@
 						</tr>
 					</table>
 					<div>
-						<div class="re_info"><a href="MyInfo.jsp?state=change">닉네임 수정</a></div>
+						<div class="re_info" onclick="reName()">닉네임 수정</div>
 					</div>
 				</div>
 
-				<div class="ok_info"><a href="MyInfo.jsp?state=back">확인</a></div>
+				<div class="ok_info"><a href="Index.jsp">확인</a></div>
 				
 			</div>
 		</div>

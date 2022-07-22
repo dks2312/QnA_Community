@@ -16,11 +16,6 @@
     //   initialView: 'dayGridMonth'
 		events:[
 			{
-					title : '데이터 입력 시작',
-					start : '2022-07-21',
-					allDay : true
-			},
-			{
 				title : '휴강',
 				start : '2022-08-12',
 				allDay : true
@@ -54,6 +49,11 @@
 				title : '휴강',
 				start : '2022-10-10',
 				allDay : true
+			},
+			{
+				title : '끝!!!',
+				start : '2022-10-26',
+				allDay : true
 			}
 		]
     });
@@ -70,7 +70,6 @@
 			<div class="header">
 				<div class="back_btn">
 					<a href="./Index.jsp">뒤로가기</a>
-					<span style="color: red; font-size: 10px; opacity: 0.5;"> 정확하지 않을 수 있습니다</span>
 				</div>
 			</div>
 	
@@ -90,10 +89,12 @@
 					bottom: 100px;
 					right: 50px;
 					z-index: 999999;
-				">
-				성남 컴퓨터그린아카데미 더 자세히보기
+				"
+				target="_blank"
+				>
+				성남 컴퓨터그린아카데미 과정 자세히보기
 			</a>
-			
+			<span style="color: red; font-size: 10px; opacity: 0.5;">정확하지 않을 수 있습니다.</span>
 			<jsp:include page="./footer.html"/>
 		</div>
 	</div>

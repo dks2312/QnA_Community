@@ -23,11 +23,11 @@
 				<div class="btn ">
 					<a href="./PostBoard.jsp">게시판</a>
 				</div>
-				<div class="btn off">
-					<a href="#">성남</a>
-				</div>
 				<div class="btn">
 					<a href="./Character.jsp">일정</a>
+				</div>
+				<div class="btn">
+					<a href="./LogIn.jsp">로그인</a>
 				</div>
 			</div>
 		</div>

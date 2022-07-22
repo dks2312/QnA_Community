@@ -77,14 +77,14 @@
 				<div class="comment">
 					<div class="comment_info">
 						<div class="user_name"><%= com.getWriterName() %></div>
-						<div class="date"><%= com.getDate() %></div>
+						<div class="date"><%= com.getSimlpDate() %></div>
 						
 						<a class="love" href="LikeProcess.jsp?likeTB=COMMENT&likeNum=<%= com.getNum() %>&backPostNum=<%= numL %>">
 							하트 : <%= comDao.getLikeCount(com.getNum()) %>
 						</a>
 					</div>
 					<hr>
-					<div class="comment_body"><%= com.getSimlpDate() %></div>
+					<div class="comment_body"><%= com.getContent() %></div>
 				</div>
 			<%	
 			}

@@ -78,10 +78,10 @@
 					<li class="itme_sub">마이페이지
 	                    <ul class="sub_menu">
 	                        <li><a href="./MyInfo.jsp">회원정보</a></li>
-	                        <li><a href="#">작성한 게시글</a></li>
-	                        <li><a href="#">작성한 댓글</a></li>
-	                        <li><a href="#">좋아요한 게시글</a></li>
-	                        <li><a href="#">좋아요한 댓글</a></li>
+	                        <li><a href="./myPostBoard.jsp?type=cp">작성한 게시글</a></li>
+	                        <li><a href="./myPostBoard.jsp?type=cc">작성한 댓글</a></li>
+	                        <li><a href="./myPostBoard.jsp?type=lp">좋아요한 게시글</a></li>
+	                        <li><a href="./myPostBoard.jsp?type=lc">좋아요한 댓글</a></li>
 	                    </ul>
 	                </li>
 				<%} %>
