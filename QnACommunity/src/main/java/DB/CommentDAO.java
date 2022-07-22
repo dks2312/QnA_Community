@@ -2,6 +2,7 @@ package DB;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 
 import javax.servlet.ServletContext;
@@ -117,5 +118,9 @@ public class CommentDAO extends BasicDAO implements Like<CommentVO>{
 	// 댓글의 좋아요 개수를 구함
 	public int getLikeCount(long postNum) {
 		return getCount("LIKE_COMMENT_TB", "LIKE_NUM", postNum);
+	}
+	
+	public Map<String, Integer> tableInfo(){
+		return tableInfo("COMMENT_TB");
 	}
 }

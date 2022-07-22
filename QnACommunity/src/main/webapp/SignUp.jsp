@@ -10,13 +10,12 @@
 <title>질문 있습니다!!!</title>
 </head>
 <body>
-	<% if(request.getAttribute("SignUpErrMsg") != null){%>
-	  <script>
-	    alert("<%=request.getAttribute("SignUpErrMsg") %>");
-	  </script>
-	<%}%>		
-	
 	<script>
+		<% if(request.getAttribute("SignUpErrMsg") != null){%>
+			alert(' <%=request.getAttribute("SignUpErrMsg")%> ');
+		<%}%>		
+	
+	
 		function validateForm(form){			
 			if(!form.id.value){
 				alert("아이디를 입력하세요");
@@ -52,23 +51,22 @@
 			
 	
 			<form action="SignUpProcess.jsp" method="post" onsubmit="return validateForm(this);">
-				<button type="button" class="id_check off" id="id_check_helf">중복체크</button>
 				<table class="sign_up_table">
 					<tr>
 						<td class="lab"><label for="id_filed">아이디 : </label></td>
-						<td class="inp"><input id="id_filed" name="id" type="text"></td>
+						<td class="inp"><input id="id_filed" name="id" type="text" placeholder="50Btye 이내로 입력하세요"></td>
 					</tr>
 					<tr>
 						<td class="lab"><label for="pw_filed">비밀번호 : </label></td>
-						<td class="inp"><input id="pw_filed" name="pw" type="password"></td>
+						<td class="inp"><input id="pw_filed" name="pw" type="password" placeholder="100Btye 이내로 입력하세요"></td>
 					</tr>
 					<tr>
 						<td class="lab"><label for="pw_check_filed">비밀번호 확인 : </label></td>
-						<td class="inp"><input id="pw_check_filed" name="pw_check" type="password"></td>
+						<td class="inp"><input id="pw_check_filed" name="pw_check" type="password" placeholder="비밀번호와 똑같이 입력하세요"></td>
 					</tr>
 					<tr>
 						<td class="lab"><label for="nic_name_filed">닉네임 : </label></td>
-						<td class="inp"><input id="nic_name_filed" name="nic_name" type="text"></td>
+						<td class="inp"><input id="nic_name_filed" name="nic_name" type="text" placeholder="100Btye 이내로 입력하세요"></td>
 					</tr>
 				</table>
 	

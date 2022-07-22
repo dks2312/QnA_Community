@@ -7,7 +7,7 @@
 <%@ page import="DB.MemberVO" %>
 <% 
 	if(session.getAttribute("User") == null){
-		request.setAttribute("likeErrMsg", "로그인을 한 후 이용할 수 있습니다");
+		request.setAttribute("UserErr", "로그인을 한 후 이용할 수 있습니다");
 		request.getRequestDispatcher("PostBoard.jsp").forward(request, response);
 		return;
 	}

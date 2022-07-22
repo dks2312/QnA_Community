@@ -1,5 +1,9 @@
 package DB;
 
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.ServletContext;
 
 public class MemberDAO extends BasicDAO{
@@ -45,5 +49,9 @@ public class MemberDAO extends BasicDAO{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Map<String, Integer> tableInfo(){
+		return tableInfo("MEMBER");
 	}
 }

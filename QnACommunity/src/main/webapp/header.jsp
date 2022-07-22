@@ -43,6 +43,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <!--  <META HTTP-EQUIV="refresh" CONTENT="60"> 60초마다 리로드-->
     <link rel="stylesheet" href="./css/header.css">
 	<link rel="stylesheet" href="./css/logOut.css">
     <script defer src="./js/header.js"></script>
@@ -51,11 +52,10 @@
 </head>
 <body>
 	<% 
-		if(request.getAttribute("UserErr") != null){
-			request.setAttribute("UserErr", null);
+	if(request.getAttribute("UserErr") != null){
+		request.setAttribute("UserErr", null);
 	%>
 	  <script>
-	    /* alert("<%=request.getAttribute("UserErr") %>"); */
 	    alert("로그인이 필요한 서비스입니다");
 	  </script>
 	<%}%>

@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.ServletContext;
 
 //import javax.naming.Context;
@@ -18,29 +21,6 @@ public class BasicDAO {
 	protected PreparedStatement psmt;
 	protected ResultSet rs;
 	
-	// 커넥션 풀을 이용한 DB연결 (성공함)
-//	public myDAO() {
-//		try {
-//			// JNDI 서비스를 이용하기 위한 시작점
-//			Context initCtx = new InitialContext();
-//			
-//			// "java:comp/env" -> 현재 웹 애플리케이션의 루트 디렉터리. 모든 자원은 해당 디렉터리 아래에 위치해 있음
-//			// lookup()메서드에 이름을 건네면 원하는 객체를 불러옴
-//			Context ctx = (Context)initCtx.lookup("java:comp/env");
-//			
-//			// "dbcp_myoracle" -> context.xml파일에 <ResouceLink>에 있는 name 속성의 값, 불러온 이유는 server.xml파일에 있는 <Resource>에 있는 DB정보를 가져오기 위함
-//			DataSource source = (DataSource)ctx.lookup("dbcp_myoracle");
-//			
-//			
-//			con = source.getConnection();
-//			stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-//			
-//			System.out.println("DB 커넥션 풀 연결 성공");
-//		} catch (Exception e) {
-//			System.out.println("DB 커넥션 풀 연결 실패");
-//			e.printStackTrace();
-//		}
-//	}
 	
 	public BasicDAO() {
 		try {
@@ -106,5 +86,27 @@ public class BasicDAO {
 		}
 		
 		return 0;
+	}
+	
+	public Map<String, Integer> tableInfo(String table){
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		
+		String query = "SELECT COLUMN_NAME, DATA_LENGTH "
+					+ "FROM user_tab_columns "
+					+ "WHERE TABLE_NAME = '"+ table +"'";
+		
+		System.out.println(query);
+		
+		try {
+			rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				map.put(rs.getString(1), rs.getInt(2));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return map;
 	}
 }

@@ -337,6 +337,10 @@ public class PostDAO extends BasicDAO implements Like<PostVO>{
 		
 		stmt.executeQuery(query);
 	}	
+	
+	public Map<String, Integer> tableInfo(){
+		return tableInfo("POST");
+	}
 
 	public static void main(String[] args) {
 		PostDAO dao = new PostDAO();
