@@ -27,7 +27,11 @@
 					<a href="./Character.jsp">일정</a>
 				</div>
 				<div class="btn">
+				<%if(session.getAttribute("User") == null) {%>
 					<a href="./LogIn.jsp">로그인</a>
+				<%} else {%>
+					<a class="logout_popup_on">로그아웃</a>
+				<%} %>
 				</div>
 			</div>
 		</div>

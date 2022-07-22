@@ -44,7 +44,9 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="./css/header.css">
+	<link rel="stylesheet" href="./css/logOut.css">
     <script defer src="./js/header.js"></script>
+	<script defer src="./js/logout.js"></script>
     <title>질문 있습니다!!!</title>
 </head>
 <body>
@@ -96,15 +98,22 @@
 				<%} else {%>
 					<li class="itme_sub"><%= ((MemberVO)session.getAttribute("User")).getNickName()%>
 	                    <ul class="sub_menu">
-	                        <li><a href="./LogOutProcess.jsp">로그아웃</a></li>
+	                        <li class="logout_popup_on">로그아웃</li>
 	                    </ul>
 	                </li>
 				<%} %>
             </ul>
         </nav>
-        
-        
     </header>
     <hr>
+
+	<div id="logout_popup">
+        <div class="logOutPan">
+            <div class="wowImg"><img src="./images/warn.png" alt="!!!!경고"></div>
+            <div class="pop_title">정말로 로그아웃 하시겠습니까?</div>
+            <a class="logout_ok" href="./LogOutProcess.jsp">확인</a>
+            <a class="logout_no">취소</a>
+        </div>
+    </div>
 </body>
 </html>
