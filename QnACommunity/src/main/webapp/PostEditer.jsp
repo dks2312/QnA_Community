@@ -67,7 +67,7 @@
 						<label for="post_category_items">카테고리</label> 
 						<select name="category" id="post_category_items">
 							<option value="none">선택</option>
-							<option value="퀴즈">질문</option>
+							<option value="질문">질문</option>
 							<option value="에러">에러</option>
 							<option value="자유">자유</option>
 						</select>
