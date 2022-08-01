@@ -17,25 +17,15 @@
 		
 		// 입력 제한 기능 만들기
 		MemberDAO memberDAO = new MemberDAO(application);
-		Map<String, Integer> map = memberDAO.tableInfo();
 		
-		String msg = "";
-		if(id.getBytes().length > map.get("ID")){
-			msg += "아이디가 "+ id.getBytes().length +"Byte로 너무 깁니다 (최대:"+ map.get("ID") +")\\n";
-		}
-		if(pw.getBytes().length > map.get("PASSWORD")){
-			msg += "비밀번호가 "+ pw.getBytes().length +"Byte로 너무 깁니다 (최대:"+ map.get("PASSWORD") +")\\n";
-		}
-		if(nicName.getBytes().length > map.get("NICK_NAME")){
-			msg += "닉네임이 "+ nicName.getBytes().length +"Byte로 너무 깁니다 (최대:"+ map.get("NICK_NAME") +")\\n";
-		}
+		
+		String msg = memberDAO.validateMamberIPN(id, pw, nicName);
 		
 		if(msg.length() > 1){
 			request.setAttribute("SignUpErrMsg", msg);
 			request.getRequestDispatcher("SignUp.jsp").forward(request, response);
 			return;
 		}
-		
 		
 		// 회원가입한 정보를 조합(?)
 		MemberVO memberVo = new MemberVO(id, pw, nicName);

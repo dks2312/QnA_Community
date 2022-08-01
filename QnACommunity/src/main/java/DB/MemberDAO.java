@@ -53,7 +53,25 @@ public class MemberDAO extends BasicDAO{
 		return tableInfo("MEMBER");
 	}
 	
-	public boolean validateMamberIPN() {
-		return false;
+	
+	public String validateMamberIPN(MemberVO mamber) {
+		return validateMamberIPN(mamber.getId(), mamber.getPassword(), mamber.getNickName());
+	}
+	public String validateMamberIPN(String id, String pw, String nicName) {
+		Map<String, Integer> map = tableInfo();
+		
+		String msg = "";
+		if(id.getBytes().length > map.get("ID")){
+			msg += "아이디가 "+ id.getBytes().length +"Byte로 너무 깁니다 (최대:"+ map.get("ID") +")\\n";
+		}
+		if(pw.getBytes().length > map.get("PASSWORD")){
+			msg += "비밀번호가 "+ pw.getBytes().length +"Byte로 너무 깁니다 (최대:"+ map.get("PASSWORD") +")\\n";
+		}
+		if(nicName.getBytes().length > map.get("NICK_NAME")){
+			msg += "닉네임이 "+ nicName.getBytes().length +"Byte로 너무 깁니다 (최대:"+ map.get("NICK_NAME") +")\\n";
+		}
+		
+		if(msg.equals("")) return null;
+		else return msg;
 	}
 }
