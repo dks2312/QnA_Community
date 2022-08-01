@@ -7,7 +7,6 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Queue;
 
 public interface Like<T>{
-	
 	// 사용자가 쓴 좋아요한 게시물 가져오기
 	public Queue<T> likeSearch(String userId);
 	public void likeAction(long postNum, String userId);
@@ -46,6 +45,4 @@ public interface Like<T>{
 		} catch(SQLIntegrityConstraintViolationException e) {}	// 좋아요를 누른 전적이 있다면 무시함
 		catch (SQLException e) { e.printStackTrace(); }
 	}
-	
-	
 }

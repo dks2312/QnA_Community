@@ -100,7 +100,6 @@
 				<form method="post" onsubmit="return validateForm(this)" id="new_comment_form" action="CommentUpLoadProcess.jsp?num=<%= numL %>">
 					<textarea name="comment_text" class="comment_textFiled" ></textarea>
 				</form>
-				
 			</div>
 		</div>
 		

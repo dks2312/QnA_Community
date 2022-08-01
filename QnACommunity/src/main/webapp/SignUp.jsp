@@ -12,7 +12,7 @@
 <body>
 	<script>
 		<% if(request.getAttribute("SignUpErrMsg") != null){%>
-			alert(' <%=request.getAttribute("SignUpErrMsg")%> ');
+			alert('<%=request.getAttribute("SignUpErrMsg")%>');
 		<%}%>		
 	
 	

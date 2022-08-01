@@ -1,7 +1,5 @@
 package DB;
 
-import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -53,5 +51,9 @@ public class MemberDAO extends BasicDAO{
 	
 	public Map<String, Integer> tableInfo(){
 		return tableInfo("MEMBER");
+	}
+	
+	public boolean validateMamberIPN() {
+		return false;
 	}
 }
