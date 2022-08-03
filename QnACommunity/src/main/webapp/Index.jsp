@@ -27,6 +27,9 @@
 					<a href="./Character.jsp">일정</a>
 				</div>
 				<div class="btn">
+					<a href="./Character.jsp">일정</a>
+				</div>
+				<div class="btn">
 				<%if(session.getAttribute("User") == null) {%>
 					<a href="./LogIn.jsp">로그인</a>
 				<%} else {%>

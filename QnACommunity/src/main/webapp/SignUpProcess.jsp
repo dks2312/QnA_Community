@@ -21,7 +21,7 @@
 		
 		String msg = memberDAO.validateMamberIPN(id, pw, nicName);
 		
-		if(msg.length() > 1){
+		if(msg != null){
 			request.setAttribute("SignUpErrMsg", msg);
 			request.getRequestDispatcher("SignUp.jsp").forward(request, response);
 			return;
