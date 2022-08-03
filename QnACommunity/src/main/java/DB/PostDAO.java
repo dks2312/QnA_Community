@@ -181,9 +181,15 @@ public class PostDAO extends BasicDAO implements Like<PostVO>{
 		Queue<PostVO> list = new LinkedList<PostVO>();
 		String query;
 		
-		query = "SELECT NUM, CATEGORY, TITLE, CONTENT, WRITER, VISIT_COUNT, POST_DATE FROM ( "
+		query = "SELECT NUM, CATEGORY, TITLE, WRITER, VISIT_COUNT, POST_DATE FROM ( "
 				+"	SELECT Tb.*, ROWNUM rNum FROM ( "
-				+"		SELECT * FROM POST "
+				+"		SELECT * FROM ( "
+				+"			SELECT p.NUM, p.CATEGORY, p.TITLE, p.WRITER, p.VISIT_COUNT, p.POST_DATE, COUNT(lpt.LIKE_NUM) as LIKE_COUNT FROM ( "
+				+"				POST p LEFT OUTER JOIN  LIKE_POST_TB lpt "
+				+"				ON p.NUM = lpt.LIKE_NUM "
+				+"			) "
+				+"			GROUP BY p.NUM, p.CATEGORY, p.TITLE, p.WRITER, p.VISIT_COUNT, p.POST_DATE "
+				+"		) "
 				+"		WHERE title LIKE '%"+ map.get("search") +"%' ";
 		
 		if(!map.get("searchCategory").equals("all")) {
@@ -191,12 +197,12 @@ public class PostDAO extends BasicDAO implements Like<PostVO>{
 		}
 		
 		if(map.get("searchSort").equals("NUM")) 
-			query += "ORDER BY NUM ASC";
+			query += "	ORDER BY NUM ASC";
 		else 
-			query += "ORDER BY "+ map.get("searchSort") +" DESC";
+			query += "	ORDER BY "+ map.get("searchSort") +" DESC ";
 		
-		query +="	) Tb"
-				+")"
+		query +="		) Tb "
+				+"	) "
 				+"WHERE rNum BETWEEN ? AND ?";
 		
 		System.out.println("SQL : " + query);
@@ -213,10 +219,9 @@ public class PostDAO extends BasicDAO implements Like<PostVO>{
 						rs.getLong(1),
 						rs.getString(2),
 						rs.getString(3),
-						rs.getClob(4),
-						rs.getString(5),
-						rs.getInt(6),
-						rs.getString(7));
+						rs.getString(4),
+						rs.getInt(5),
+						rs.getString(6));
 				list.offer(tmp);
 			}
 		} catch (Exception e) {

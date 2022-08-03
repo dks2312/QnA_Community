@@ -14,7 +14,16 @@ public class PostVO implements SimlpDate{
 	
 	private String postDate;	// 날짜 데이터
 	
-
+	// 게시글 내용 제외
+	public PostVO(long num, String cartegory, String title, String writer, 
+			int visitCount, String postDate) {
+		this.num = num;
+		this.cartegory = cartegory;
+		this.title = title;
+		this.writer = writer;
+		this.postDate = postDate;
+		this.visitCount = visitCount;
+	}
 	public PostVO(long num, String cartegory, String title, Clob content, String writer, 
 			int visitCount, String postDate) {
 		this.num = num;
