@@ -10,11 +10,6 @@
 <title>질문 있습니다!!!</title>
 </head>
 <body>
-	<% if(request.getAttribute("LoginMsg") != null){%>
-	  <script>
-	    alert("<%=request.getAttribute("LoginMsg") %>");
-	  </script>
-	<%}%>
 	<div id="wrap">
 		<jsp:include page="./header.jsp"/>
 		
@@ -22,9 +17,6 @@
 			<div class="content_menu">
 				<div class="btn ">
 					<a href="./PostBoard.jsp">게시판</a>
-				</div>
-				<div class="btn">
-					<a href="./Character.jsp">일정</a>
 				</div>
 				<div class="btn">
 					<a href="./Character.jsp">일정</a>

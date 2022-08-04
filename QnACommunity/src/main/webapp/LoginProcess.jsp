@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="DB.MemberDAO"%>
 <%@ page import="DB.MemberVO"%>
+<%@ page import="utils.JSFunction" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,8 +21,7 @@
 	
 	if(member != null){
 		session.setAttribute("User", member);
-		request.setAttribute("LoginMsg", member.getNickName() +"님 환영합니다. 성공적으로 로그인 되셨습니다.");
-		response.sendRedirect("Index.jsp");
+		JSFunction.alertLocation("환영합니다! "+ member.getNickName() +"님", "Index.jsp", out);
 	}else{
 		request.setAttribute("LoginErrMsg", "로그인 정보가 맞지 않습니다.");
 		request.getRequestDispatcher("LogIn.jsp").forward(request, response);

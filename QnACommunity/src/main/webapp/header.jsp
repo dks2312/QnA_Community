@@ -8,6 +8,10 @@
 <%@ page import="DB.MemberVO"%>
 <%@ page import="DB.BasicDAO"%>
 <%
+	String chatId;
+	if(session.getAttribute("User") != null) 
+		chatId = ((MemberVO)session.getAttribute("User")).getNickName();
+
 	String strDay = "2022-10-26";	// 성그아 웹개발 과정 종료일
 	
 	String diffStudentTime = null;
@@ -49,6 +53,7 @@
 	<link rel="stylesheet" href="./css/logOut.css">
     <script defer src="./js/header.js"></script>
 	<script defer src="./js/logout.js"></script>
+	<script defer src="./js/chatWindow.js"></script>
     <title>질문 있습니다!!!</title>
 </head>
 <body>
@@ -67,7 +72,9 @@
 
         <nav>
             <ul class="main_menu">
-                <li class="itme"><a href="Index.jsp">홈</a></li>
+            	<%if(session.getAttribute("User") != null) {%><li class="itme" onclick="chatWinOpen('<%= ((MemberVO)session.getAttribute("User")).getNickName()%>');">채팅 접속</li><%}%>
+            	<li class="itme"><a href="Index.jsp">홈</a></li>
+                
                 <li class="itme_sub time">시간
                     <ul class="sub_menu">
                         <li><div class="label">남은 수업 일수:</div><div class="value"><%= diffStudentDay %></div></li>
