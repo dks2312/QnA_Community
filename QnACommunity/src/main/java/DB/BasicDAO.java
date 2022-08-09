@@ -9,7 +9,10 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletContext;
+import javax.sql.DataSource;
 
 //import javax.naming.Context;
 //import javax.naming.InitialContext;
@@ -21,23 +24,40 @@ public class BasicDAO {
 	protected PreparedStatement psmt;
 	protected ResultSet rs;
 	
+    public BasicDAO() {
+        try {
+            // 커넥션 풀(DataSource) 얻기
+            Context initCtx = new InitialContext();
+            Context ctx = (Context)initCtx.lookup("java:comp/env");
+            DataSource source = (DataSource)ctx.lookup("dbcp_myoracle");
+
+            // 커넥션 풀을 통해 연결 얻기
+            con = source.getConnection();
+
+            System.out.println("DB 커넥션 풀 연결 성공");
+        }
+        catch (Exception e) {
+            System.out.println("DB 커넥션 풀 연결 실패");
+            e.printStackTrace();
+        }
+    }
 	
-	public BasicDAO() {
-		try {
-			String driver = "oracle.jdbc.driver.OracleDriver";
-			String url = "jdbc:oracle:thin:@localhost:1521:xe";
-			String user = "c##green";
-			String password = "green1234";
-			
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, user, password);
-			stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			
-			System.out.println("DB 연결 성공");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public BasicDAO() {
+//		try {
+//			String driver = "oracle.jdbc.driver.OracleDriver";
+//			String url = "jdbc:oracle:thin:@localhost:1521:xe";
+//			String user = "c##green";
+//			String password = "green1234";
+//			
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, user, password);
+//			stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+//			
+//			System.out.println("DB 연결 성공");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 	public BasicDAO(ServletContext application) {
 		try {
 			String driver = application.getInitParameter("OracleDrivaer");
